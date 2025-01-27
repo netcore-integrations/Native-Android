@@ -1,0 +1,304 @@
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    tools:context=".DashBoardScreen">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingTop="4dp"
+        android:paddingBottom="6dp">
+
+
+        <TextView
+            style="@style/SectionHeaderStyle"
+            android:layout_marginTop="20dp"
+            android:textSize="25sp"
+            android:text="@string/ce"
+            android:textColor="@color/colorAccent"/>
+
+        <!-- FCM Token Section -->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:padding="12dp"
+            android:background="@android:color/white"
+            android:elevation="4dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingStart="4dp"
+                android:paddingEnd="4dp"
+                android:text="@string/fcm_token"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                android:textColor="@android:color/black"
+                app:layout_constraintBottom_toTopOf="@id/tv_fcm_token" />
+
+            <TextView
+                android:id="@+id/tv_fcm_token"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawablePadding="12dp"
+                android:ellipsize="end"
+                android:gravity="center_vertical"
+                android:maxLines="2"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp"
+                android:text="@string/not_available"
+                android:textColor="@android:color/black"
+                app:drawableEndCompat="@drawable/ic_copy_24"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <!-- Device Unique ID Section -->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:padding="12dp"
+            android:background="@android:color/white"
+            android:elevation="4dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp"
+                android:text="@string/device_unique_id"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                android:textColor="@android:color/black"
+                app:layout_constraintBottom_toTopOf="@id/tv_guid" />
+
+            <TextView
+                android:id="@+id/tv_guid"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawablePadding="12dp"
+                android:gravity="center_vertical"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp"
+                android:text="@string/not_available"
+                android:textColor="@android:color/black"
+                app:drawableEndCompat="@drawable/ic_copy_24"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <!-- Tracking Events Section -->
+
+        <!-- Tracking Events Section -->
+        <TextView
+            style="@style/SectionHeaderStyle"
+            android:layout_marginTop="10dp"
+            android:text="@string/tracking_events"
+            android:textColor="@color/black"
+            android:paddingBottom="8dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="1dp"
+            android:layout_marginTop="8dp"
+            android:background="@color/colorLightGrey"
+            android:elevation="1dp">
+
+            <!-- Add to Wish List -->
+            <TextView
+                android:id="@+id/tv_add_to_wish_list"
+                style="@style/SectionItemStyle"
+                android:layout_width="0dp"
+                android:layout_margin="1dp"
+                android:layout_weight="1"
+                android:background="@android:color/white"
+                android:drawablePadding="8dp"
+                android:paddingStart="12dp"
+                android:paddingEnd="12dp"
+                android:text="@string/add_to_wish_list"
+                android:textColor="@android:color/black"
+                android:textSize="12sp"
+                app:drawableStartCompat="@drawable/ic_heart_24" />
+
+            <!-- Add to Cart -->
+            <TextView
+                android:id="@+id/tv_add_to_cart"
+                style="@style/SectionItemStyle"
+                android:layout_width="0dp"
+                android:layout_margin="1dp"
+                android:layout_weight="1"
+                android:background="@android:color/white"
+                android:drawablePadding="8dp"
+                android:paddingStart="12dp"
+                android:paddingEnd="12dp"
+                android:text="@string/add_to_cart"
+                android:textColor="@android:color/black"
+                android:textSize="12sp"
+                app:drawableStartCompat="@drawable/ic_add_shopping_cart_24" />
+
+            <!-- Checkout -->
+            <TextView
+                android:id="@+id/tv_checkout"
+                style="@style/SectionItemStyle"
+                android:layout_width="0dp"
+                android:layout_margin="1dp"
+                android:layout_weight="1"
+                android:background="@android:color/white"
+                android:drawablePadding="8dp"
+                android:paddingStart="12dp"
+                android:paddingEnd="12dp"
+                android:text="@string/checkout"
+                android:textColor="@android:color/black"
+                android:textSize="12sp"
+                app:drawableStartCompat="@drawable/ic_check_24" />
+        </LinearLayout>
+
+        <TextView
+            style="@style/SectionHeaderStyle"
+            android:layout_marginTop="20dp"
+            android:text="@string/tracking_users"
+            android:textColor="@color/black" />
+
+        <TextView
+            android:id="@+id/tv_update_profile"
+            style="@style/SectionItemStyle"
+            android:text="@string/update_profile"
+            android:textColor="@android:color/black"
+            app:drawableStartCompat="@drawable/ic_account_circle_24"
+            android:drawablePadding="8dp" />
+
+        <TextView
+            android:id="@+id/tv_clear_identity"
+            style="@style/SectionItemStyle"
+            android:text="@string/clear_user_identity"
+            android:textColor="@android:color/black"
+            app:drawableStartCompat="@drawable/ic_person_add_disabled_24"
+            android:drawablePadding="8dp" />
+
+        <TextView
+            android:id="@+id/tv_logout"
+            style="@style/SectionItemStyle"
+            android:text="@string/logout"
+            android:textColor="@android:color/black"
+            app:drawableStartCompat="@drawable/ic_exit_24"
+            android:drawablePadding="8dp" />
+
+
+        <TextView
+            style="@style/SectionHeaderStyle"
+            android:layout_marginTop="10dp"
+            android:text="@string/gdpr_setup"
+            android:textColor="@color/black" />
+
+
+        <!-- Push Notifications Switch -->
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/sw_opt_pn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableStart="@drawable/ic_notifications_24"
+            android:text="@string/opt_push_notifications"
+            android:textColor="@color/textPrimary"
+            style="@style/SectionItemStyle"
+            android:background="?attr/selectableItemBackground"
+            app:thumbTint="@color/switchThumb"
+            app:trackTint="@color/switchTrack" />
+
+        <!-- In-App Messages Switch -->
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/sw_opt_in_app"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableStart="@drawable/ic_comment_24"
+            android:text="@string/opt_in_apps"
+            style="@style/SectionItemStyle"
+            android:textColor="@color/textPrimary"
+            android:background="?attr/selectableItemBackground"
+            app:thumbTint="@color/switchThumb"
+            app:trackTint="@color/switchTrack" />
+
+        <!-- Tracking Switch -->
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/sw_opt_tracking"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/SectionItemStyle"
+            android:drawableStart="@drawable/ic_trending_up_24"
+            android:text="@string/opt_tracking"
+            android:textColor="@color/textPrimary"
+            android:background="?attr/selectableItemBackground"
+            app:thumbTint="@color/switchThumb"
+            app:trackTint="@color/switchTrack" />
+
+
+
+
+
+-->
+        <!-- Advanced Section -->
+        <TextView
+            style="@style/SectionHeaderStyle"
+            android:layout_marginTop="20dp"
+            android:text="@string/advanced"
+            android:textColor="@color/black" />
+
+        <TextView
+            android:id="@+id/tv_appinox"
+            style="@style/SectionItemStyle"
+            android:text="@string/app_inbox"
+            android:textColor="@android:color/black"
+            app:drawableStartCompat="@drawable/ic_notifications_24"
+            android:drawablePadding="8dp" />
+
+        <TextView
+            android:id="@+id/tv_customappinox"
+            style="@style/SectionItemStyle"
+            android:text="@string/custom_app_inbox"
+            android:textColor="@android:color/black"
+            app:drawableStartCompat="@drawable/ic_notifications_24"
+            android:drawablePadding="8dp" />
+
+        <TextView
+            android:id="@+id/tv_set_location"
+            style="@style/SectionItemStyle"
+            android:text="@string/set_location"
+            android:textColor="@android:color/black"
+            app:drawableStartCompat="@drawable/ic_location_24"
+            android:drawablePadding="8dp" />
+
+        <!--<TextView
+            style="@style/SectionHeaderStyle"
+            android:layout_marginTop="10dp"
+            android:text="@string/nudges_px" />-->
+
+        <!--<TextView
+            android:id="@+id/tv_ignoretag"
+            style="@style/SectionItemStyle"
+            android:text="@string/hansel_ignore"
+            android:textColor="@android:color/black"
+            app:drawableStartCompat="@drawable/ic_ignore_view"
+            android:drawablePadding="8dp" />-->
+    </LinearLayout>
+</ScrollView>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

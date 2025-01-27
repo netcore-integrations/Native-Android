@@ -1,0 +1,111 @@
+<resources>
+    <string name="app_name">SmartechSdk</string>
+    <string name="ce">Customer Engagement</string>
+
+    <string name="useremail">UserEmail</string>
+    <string name="password">UserPassword</string>
+    <string name="login">Login</string>
+    <string name="register">Register</string>
+    <string name="cpassword">Confirm Password</string>
+    <string name="error_message_name">Username already exists.</string>
+    <string name="error_message_nofill_name">Please enter a username</string>
+    <string name="error_message_nofill_pass">Please enter a password</string>
+    <string name="error_message_notmatch">Password does not match</string>
+    <string name="error_message_invalid">Username or password is invalid</string>
+    <string name="error_message_denied">Permission denied</string>
+    <string name="message_granted">Permission granted</string>
+
+
+    <string name="add_to_cart">Add to Cart</string>
+    <string name="add_to_wish_list">Wishlist</string>
+    <string name="advanced">Advanced</string>
+    <string name="all_fields_are_required">All fields are required.</string>
+    <string name="checkout">Checkout</string>
+    <string name="city">City</string>
+    <string name="clear">Clear</string>
+    <string name="clear_user_identity">Clear User Identity</string>
+    <string name="copied">Copied.</string>
+    <string name="default_user_location_set">Default user location set.</string>
+    <string name="device_unique_id">Device Unique ID</string>
+    <string name="email_id">Email Id</string>
+    <string name="enter_email_id">Enter email id.</string>
+    <string name="enter_your_email_id">Enter your email id</string>
+    <string name="fcm_token">Device Push Token</string>
+    <string name="first_name">First Name</string>
+    <string name="guest_login">Guest Login</string>
+    <string name="last_name">Last Name</string>
+    <string name="login_subtitle">Login to see more features of Smartech SDK</string>
+    <string name="logout">Logout</string>
+    <string name="not_available">Not Available</string>
+    <string name="gdpr_setup">GDPR SETTINGS</string>
+    <string name="opt_in_apps">Opt In-Apps</string>
+    <string name="opt_push_notifications">Opt Push Notifications</string>
+    <string name="opt_tracking">Opt Tracking</string>
+    <string name="phone_number">Phone Number</string>
+    <string name="please_login_first">Please login first.</string>
+    <string name="profile_updated">Profile Updated.</string>
+    <string name="registration_successful">Registration Successful.</string>
+    <string name="set_location">Set Location</string>
+    <string name="hansel_ignore">Ignore View</string>
+    <string name="nudges_px">Nudge(Product Experience)</string>
+    <string name="set_update_user_identity">Set/Update User Identity</string>
+    <string name="smartech_sdk_version">Smartech SDK v3.2.4</string>
+    <string name="thank_you">Thank you.</string>
+    <string name="tracking_add_to_cart">Tracking Add to Cart.</string>
+    <string name="tracking_add_to_wish_list">Tracking Add to Wishlist.</string>
+    <string name="tracking_checkout">Tracking Checkout.</string>
+    <string name="tracking_events">Tracking Events</string>
+    <string name="tracking_users">Tracking Users</string>
+    <string name="update">Update</string>
+    <string name="update_profile">Update Profile</string>
+    <string name="user_identity_cleared">User Identity Cleared.</string>
+    <string name="you_are_logged_out">You are logged out.</string>
+    <string name="already_registered">Already Registered</string>
+    <string name="img_netcore_description">Netcore Image</string>
+    <string name="app_inbox">Default Inbox</string>
+    <string name="custom_app_inbox">Custom Inbox</string>
+    <string name="title_activity_hansel_ignore_view">Hansel_IgnoreView</string>
+    <!-- Strings used for fragments for navigation -->
+    <string name="first_fragment_label">First Fragment</string>
+    <string name="second_fragment_label">Second Fragment</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+
+
+    <string name="lorem_ipsum">
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam in scelerisque sem. Mauris
+        volutpat, dolor id interdum ullamcorper, risus dolor egestas lectus, sit amet mattis purus
+        dui nec risus. Maecenas non sodales nisi, vel dictum dolor. Class aptent taciti sociosqu ad
+        litora torquent per conubia nostra, per inceptos himenaeos. Suspendisse blandit eleifend
+        diam, vel rutrum tellus vulputate quis. Aliquam eget libero aliquet, imperdiet nisl a,
+        ornare ex. Sed rhoncus est ut libero porta lobortis. Fusce in dictum tellus.\n\n
+        Suspendisse interdum ornare ante. Aliquam nec cursus lorem. Morbi id magna felis. Vivamus
+        egestas, est a condimentum egestas, turpis nisl iaculis ipsum, in dictum tellus dolor sed
+        neque. Morbi tellus erat, dapibus ut sem a, iaculis tincidunt dui. Interdum et malesuada
+        fames ac ante ipsum primis in faucibus. Curabitur et eros porttitor, ultricies urna vitae,
+        molestie nibh. Phasellus at commodo eros, non aliquet metus. Sed maximus nisl nec dolor
+        bibendum, vel congue leo egestas.\n\n
+        Sed interdum tortor nibh, in sagittis risus mollis quis. Curabitur mi odio, condimentum sit
+        amet auctor at, mollis non turpis. Nullam pretium libero vestibulum, finibus orci vel,
+        molestie quam. Fusce blandit tincidunt nulla, quis sollicitudin libero facilisis et. Integer
+        interdum nunc ligula, et fermentum metus hendrerit id. Vestibulum lectus felis, dictum at
+        lacinia sit amet, tristique id quam. Cras eu consequat dui. Suspendisse sodales nunc ligula,
+        in lobortis sem porta sed. Integer id ultrices magna, in luctus elit. Sed a pellentesque
+        est.\n\n
+        Aenean nunc velit, lacinia sed dolor sed, ultrices viverra nulla. Etiam a venenatis nibh.
+        Morbi laoreet, tortor sed facilisis varius, nibh orci rhoncus nulla, id elementum leo dui
+        non lorem. Nam mollis ipsum quis auctor varius. Quisque elementum eu libero sed commodo. In
+        eros nisl, imperdiet vel imperdiet et, scelerisque a mauris. Pellentesque varius ex nunc,
+        quis imperdiet eros placerat ac. Duis finibus orci et est auctor tincidunt. Sed non viverra
+        ipsum. Nunc quis augue egestas, cursus lorem at, molestie sem. Morbi a consectetur ipsum, a
+        placerat diam. Etiam vulputate dignissim convallis. Integer faucibus mauris sit amet finibus
+        convallis.\n\n
+        Phasellus in aliquet mi. Pellentesque habitant morbi tristique senectus et netus et
+        malesuada fames ac turpis egestas. In volutpat arcu ut felis sagittis, in finibus massa
+        gravida. Pellentesque id tellus orci. Integer dictum, lorem sed efficitur ullamcorper,
+        libero justo consectetur ipsum, in mollis nisl ex sed nisl. Donec maximus ullamcorper
+        sodales. Praesent bibendum rhoncus tellus nec feugiat. In a ornare nulla. Donec rhoncus
+        libero vel nunc consequat, quis tincidunt nisl eleifend. Cras bibendum enim a justo luctus
+        vestibulum. Fusce dictum libero quis erat maximus, vitae volutpat diam dignissim.
+    </string>
+</resources>

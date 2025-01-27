@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
+    <application
+        android:name=".MainApplication"
+        android:allowBackup="true"
+        android:dataExtractionRules="@xml/my_backup_file_31"
+        android:fullBackupContent="@xml/my_backup_file"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.SmartTechDemo">
+        <activity android:name=".HanselIgnoreView" />
+        <activity android:name=".RegisterScreen" />
+        <activity android:name=".LoginScreen" />
+        <activity android:name=".MainActivity" />
+        <activity android:name=".DashBoardScreen" />
+        <activity android:name=".CustomInbox" />
+        <activity android:name=".UpdateProfileScreen" />
+        <activity android:name=".ConfigActivity" />
+        <activity android:name=".ProductExperienceDashBoard" />
+        <activity android:name=".Dynamicview"/>
+        <activity android:name=".OnboardScreen"/>
+
+        <activity
+            android:name=".SplashScreen"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
+
+       <!-- Ease of onbarding test device code-->
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="smartech_sdk_td"
+                    android:scheme="testandroid" />
+            </intent-filter>
+
+            <!-- Hansel test device code for nduges-->
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data android:scheme="netcore" />
+            </intent-filter>
+
+
+        </activity>
+
+        <!-- push notification service class intialization code-->
+
+        <service
+            android:name=".Firebase_Service"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+
+
+
+ <!--   Auto fetch location code-->
+        <meta-data
+            android:name="SMT_IS_AUTO_FETCHED_LOCATION"
+            android:value="1" />
+
+        <!-- Enable encryption in local db-->
+        <meta-data
+            android:name="SMT_USE_ENCRYPTION"
+            android:value="true" />
+
+
+        <!-- Notification permission code auto ask -->
+        <meta-data
+            android:name="SMT_IS_AUTO_ASK_NOTIFICATION_PERMISSION"
+            android:value="0" />
+
+        <meta-data
+            android:name="SMT_OPT_IN_1_URL"
+            android:value="https://cdnt.netcoresmartech.com/smartech-app-sdk/notification-optin/prod/pn-permission-prompt-02.html" />
+        <meta-data
+            android:name="SMT_OPT_IN_2_URL"
+            android:value="https://cdnt.netcoresmartech.com/smartech-app-sdk/notification-optin/prod/pn-permission-prompt-01.html" />
+        <meta-data
+            android:name="SMT_OPT_IN_1_INTERVAL"
+            android:value="2" />
+        <meta-data
+            android:name="SMT_OPT_IN_2_INTERVAL"
+            android:value="5" />
+
+
+        <meta-data
+            android:name="SMT_IS_APP_ID_CHANGE_ENABLED"
+            android:value="1" />
+
+
+    </application>
+
+</manifest>

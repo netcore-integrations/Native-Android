@@ -1,0 +1,452 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bgradient"
+    android:padding="20dp"
+    tools:context=".MainActivity">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:id="@+id/linearBody"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:padding="20dp">
+
+            <!-- App Logo -->
+            <ImageView
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:layout_marginTop="30dp"
+                android:src="@drawable/img_netcore"
+                android:contentDescription="@string/img_netcore_description"
+                android:scaleType="centerInside" />
+
+
+      <!-- Username Field -->
+      <com.google.android.material.textfield.TextInputLayout
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_marginTop="30dp"
+          app:boxCornerRadiusTopStart="12dp"
+          app:boxCornerRadiusTopEnd="12dp"
+          app:boxCornerRadiusBottomStart="12dp"
+          app:boxCornerRadiusBottomEnd="12dp"
+          app:boxBackgroundMode="outline"
+          app:boxStrokeColor="#FF8000"
+          app:hintTextColor="#FF8000">
+
+          <com.google.android.material.textfield.TextInputEditText
+              android:id="@+id/username_field"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:hint="@string/useremail"
+              android:inputType="textEmailAddress"
+              android:maxLines="1"
+              android:textColor="#4D4DFF"
+              android:textColorHint="#FF8000" />
+      </com.google.android.material.textfield.TextInputLayout>
+
+      <!-- Password Field -->
+      <com.google.android.material.textfield.TextInputLayout
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_marginTop="20dp"
+          app:passwordToggleEnabled="true"
+          app:boxBackgroundMode="outline"
+          app:boxCornerRadiusTopStart="12dp"
+          app:boxCornerRadiusTopEnd="12dp"
+          app:boxCornerRadiusBottomStart="12dp"
+          app:boxCornerRadiusBottomEnd="12dp"
+          app:boxStrokeColor="#FF8000"
+          app:hintTextColor="#FF8000">
+
+          <com.google.android.material.textfield.TextInputEditText
+              android:id="@+id/password_field"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:hint="@string/password"
+              android:inputType="textPassword"
+              android:maxLines="1"
+              android:textColor="#4D4DFF"
+              android:textColorHint="#FF8000" />
+      </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- Remember Me Checkbox -->
+            <CheckBox
+                android:id="@+id/checkBox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Remember Me"
+                android:textColor="#FF8000"
+                android:layout_marginTop="10dp" />
+
+            <!-- Login Button -->
+            <Button
+                android:id="@+id/login_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:layout_marginHorizontal="20dp"
+                android:backgroundTint="#03A9F4 "
+                android:text="@string/login"
+                android:textColor="#FFFFFF"
+                android:textStyle="bold"
+               />
+
+            <!-- Registration Prompt -->
+            <TextView
+                android:id="@+id/reg_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:text="Not yet registered? Click here:"
+                android:textColor="#FF8000"
+                android:textAlignment="center"
+                android:textStyle="bold" />
+
+            <!-- Register Button -->
+            <Button
+                android:id="@+id/register_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginHorizontal="20dp"
+                android:backgroundTint="#03A9F4 "
+                android:text="@string/register"
+                android:textColor="#FFFFFF"
+                android:textStyle="bold"
+                  />
+
+        </LinearLayout>
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bgradient"
+    android:padding="20dp"
+    tools:context=".MainActivity">
+
+    <LinearLayout
+        android:id="@+id/linearBody"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center">
+
+        <ImageView
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:layout_marginTop="50dp"
+            android:src="@drawable/img_netcore"
+            android:contentDescription="@string/img_netcore_description"/>
+
+        <EditText
+            android:id="@+id/username_field"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="50dp"
+            android:hint="@string/useremail"
+            android:textColorHint="#ff8000"
+            android:inputType="textEmailAddress"
+            android:maxLines="1"
+            android:textColor="#4d4dff" />
+
+        <EditText
+            android:id="@+id/password_field"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:hint="@string/password"
+            android:textColorHint="#ff8000"
+            android:inputType="textPassword"
+            android:maxLines="1"
+            android:textColor="#4d4dff" />
+
+        <CheckBox
+            android:id="@+id/checkBox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Remember Me"
+            android:textColor="#ff8000"
+            android:checked="true"
+            android:layout_marginTop="4dp"/>
+
+        <Button
+            android:id="@+id/login_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="50dp"
+            android:layout_marginHorizontal="30dp"
+            android:background="@drawable/button_background"
+            android:text="@string/login"
+            android:textColor="#FFFFFF"/>
+
+        <TextView
+            android:id="@+id/reg_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="50dp"
+            android:textColor="#ff8000"
+            android:text="Not yet registered? Click here:"
+            android:textAlignment="center"
+            android:textStyle="bold"/>
+
+        <Button
+            android:id="@+id/register_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginHorizontal="30dp"
+            android:background="@drawable/button_background"
+            android:text="@string/register"
+            android:textColor="#FFFFFF"/>
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>-->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <!--
+    <?xml version="1.0" encoding="utf-8"?>
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/bgradient"
+        android:padding="20dp"
+        tools:context=".MainActivity">
+
+        <LinearLayout
+            android:id="@+id/linearBody"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            >
+
+            <ImageView
+                android:layout_width="200dp"
+                android:layout_height="200dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="50dp"
+                android:src="@drawable/img_netcore"/>
+
+            <EditText
+                android:id="@+id/username_field"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="50dp"
+                android:hint="@string/useremail"
+                android:textColorHint="	#ff8000"
+                android:inputType="text"
+                android:maxLines="1"
+                android:textColor="#4d4dff"
+                />
+
+            <EditText
+                android:id="@+id/password_field"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:hint="@string/password"
+                android:textColorHint="	#ff8000"
+                android:inputType="textPassword"
+                android:maxLines="1"
+                android:textColor="#4d4dff"
+                />
+            <CheckBox
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="RememberMe"
+                android:textColor="#ff8000"
+                android:checked="true"
+                android:id="@+id/checkBox"
+                android:layout_marginTop="4dp">
+
+            </CheckBox>
+
+            <Button
+                android:id="@+id/login_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="30dp"
+                android:layout_marginTop="50dp"
+                android:background="@drawable/button_background"
+                android:backgroundTint="#ff8000"
+                android:text="@string/login"/>
+
+            <TextView
+                android:id="@+id/reg_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="50dp"
+                android:textColor="#ff8000"
+                android:text="Not yet registered? Click here:"
+                android:textAlignment="center"
+                android:textStyle="bold"/>
+
+            <Button
+                android:id="@+id/register_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="30dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/button_background"
+                android:backgroundTint="#ff8000"
+                android:text="@string/register"/>
+
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>-->

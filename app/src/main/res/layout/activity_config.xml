@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:background="@android:color/white">
+
+    <!-- Title -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Configure DashBoard APPID'S "
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:paddingBottom="12dp"
+        android:textColor="@color/primaryColor" />
+
+    <!-- SMT_APP_ID Input -->
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="12dp">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/et_smt_app_id"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="SMT_APP_ID"
+            android:inputType="text" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <!-- HANSEL_APP_ID Input -->
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="12dp">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/et_hansel_app_id"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="HANSEL_APP_ID"
+            android:inputType="text" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <!-- HANSEL_APP_KEY Input -->
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/et_hansel_app_key"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="HANSEL_APP_KEY"
+            android:inputType="text" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <!-- Save Button -->
+    <Button
+        android:id="@+id/btn_save"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Save"
+        android:backgroundTint="@color/dashboardbutton_color"
+        android:textColor="@android:color/white"
+        android:padding="12dp"
+        android:elevation="4dp" />
+</LinearLayout>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <EditText
+        android:id="@+id/et_smt_app_id"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="SMT_APP_ID"
+        android:inputType="text" />
+
+    <EditText
+        android:id="@+id/et_hansel_app_id"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="HANSEL_APP_ID"
+        android:inputType="text" />
+
+    <EditText
+        android:id="@+id/et_hansel_app_key"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="HANSEL_APP_KEY"
+        android:inputType="text" />
+
+    <Button
+        android:id="@+id/btn_save"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Save" />
+</LinearLayout>-->

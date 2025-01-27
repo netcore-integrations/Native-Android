@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "445542237132",
+    "project_id": "smartech-kotlin",
+    "storage_bucket": "smartech-kotlin.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:445542237132:android:1a030f1280570241ded369",
+        "android_client_info": {
+          "package_name": "com.netcore.smarttechdemo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "445542237132-c3nao522hbklgot7rd74t04im341448h.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDGP8U_1ts1zYkeZUeXizH5PeIgVIaEHOA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "445542237132-c3nao522hbklgot7rd74t04im341448h.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
