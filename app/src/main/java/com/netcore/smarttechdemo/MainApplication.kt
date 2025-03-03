@@ -29,14 +29,15 @@ class MainApplication : Application() {
         super.onCreate()
 
         // Initialize the Smartech SDK
-        val smartech = Smartech.getInstance(WeakReference(applicationContext))
+        /*val smartech = Smartech.getInstance(WeakReference(applicationContext))
         smartech.initializeSdk(
             this,
             ConfigUtils.getConfigValue(this, "SMT_APP_ID"),
             ConfigUtils.getConfigValue(this, "HANSEL_APP_ID"),
             ConfigUtils.getConfigValue(this, "HANSEL_APP_KEY")
-        )
-
+        )*/
+        val smartech = Smartech.getInstance(WeakReference(applicationContext))
+        smartech.initializeSdk(this)
         smartech.setDebugLevel(SMTDebugLevel.Level.VERBOSE)
         smartech.trackAppInstallUpdateBySmartech()
 
@@ -155,38 +156,9 @@ class MainApplication : Application() {
 
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+private fun Smartech.initializeSdk() {
+    TODO("Not yet implemented")
+}
 
 
 /*

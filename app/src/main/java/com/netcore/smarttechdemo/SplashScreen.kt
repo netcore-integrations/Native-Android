@@ -45,7 +45,7 @@ class SplashScreen : AppCompatActivity() {
     }
 
     private fun navigateToLoginScreen() {
-        val intent = Intent(this, OnboardScreen::class.java)
+        val intent = Intent(this, LoginScreen::class.java)
         startActivity(intent)
         finish()
     }

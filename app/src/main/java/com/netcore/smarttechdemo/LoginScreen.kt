@@ -83,21 +83,7 @@ class LoginScreen : AppCompatActivity(), View.OnClickListener {
         }
     }
 
-/*    private fun loadUserCredentials() {
-       val savedEmail = sharedPreferences.getString(KEY_EMAIL, null)
-       val savedPassword = sharedPreferences.getString(KEY_PASSWORD, null)
-       val isRemembered = sharedPreferences.getBoolean(KEY_CHECKBOX, false)
 
-       if (isRemembered && !savedEmail.isNullOrEmpty() && !savedPassword.isNullOrEmpty()) {
-           textEditTextUser.setText(savedEmail)
-           textEditTextPassword.setText(savedPassword)
-
-           checkBox.isChecked = true
-
-           // Automatically verify and login
-           autoLogin(savedEmail, savedPassword)
-       }
-   }*/
 
     private fun autoLogin(email: String, password: String) {
         if (dbHelper.logCheckUser(email, password)) {

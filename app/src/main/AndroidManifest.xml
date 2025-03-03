@@ -7,6 +7,7 @@
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_MEDIA_PLAYBACK" />
 
     <application
         android:name=".MainApplication"
@@ -75,6 +76,15 @@
             </intent-filter>
         </service>
 
+        <meta-data
+            android:name="HANSEL_APP_ID"
+            android:value="O032WHH4VDVY9R9QE1486YHTA" />
+        <meta-data
+            android:name="HANSEL_APP_KEY"
+            android:value="KF7W5ANHUE36XMXMT4ETL146OJIOJFCYLSP438RY57SBRIAS2G" />
+        <meta-data
+            android:name="SMT_APP_ID"
+            android:value="97e11d692e102ac422570ee5fd49a2a3"/>
 
 
  <!--   Auto fetch location code-->
