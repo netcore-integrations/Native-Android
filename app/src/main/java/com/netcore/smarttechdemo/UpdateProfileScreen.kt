@@ -52,7 +52,7 @@ class UpdateProfileScreen : AppCompatActivity() {
 
                 Smartech.getInstance(WeakReference(applicationContext)).updateUserProfile(payload)
 
-                // User tracking code for hansel
+                // User tracking code for Hansel
                 Hansel.getUser().putAttribute("EMAIL", email)
                 Hansel.getUser().putAttribute("MOBILE", mobile)
                 Hansel.getUser().putAttribute("DOB", dob)

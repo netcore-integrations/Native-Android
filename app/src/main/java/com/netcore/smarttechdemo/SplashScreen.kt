@@ -1,6 +1,8 @@
 package com.netcore.smarttechdemo
 
+import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
 import android.view.WindowManager
@@ -24,7 +26,7 @@ class SplashScreen : AppCompatActivity() {
         // Handle deeplink if it comes from Smartech
         val isSmartechHandledDeeplink = Smartech.getInstance(WeakReference(this)).isDeepLinkFromSmartech(intent)
         if (!isSmartechHandledDeeplink) {
-            handleDeepLink() // Implement your deeplink handling logic here
+
         }
 
 
@@ -40,6 +42,8 @@ class SplashScreen : AppCompatActivity() {
 
         // Use a Handler to delay the transition to the Login screen
         Handler().postDelayed({
+
+            //checkAndHandleStoredDeeplink()
             navigateToLoginScreen()
         }, splashScreenDelay)
     }
@@ -50,8 +54,19 @@ class SplashScreen : AppCompatActivity() {
         finish()
     }
 
-    private fun handleDeepLink() {
-        // Implement your deep link handling logic here
+
+
+
+    private fun checkAndHandleStoredDeeplink() {
+        val sharedPref = getSharedPreferences("DeeplinkPrefs", Context.MODE_PRIVATE)
+        val deepLinkValue = sharedPref.getString("DEEPLINK_URL", null)
+
+        if (!deepLinkValue.isNullOrEmpty()) {
+            sharedPref.edit().remove("DEEPLINK_URL").apply() // Clear after using
+            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(deepLinkValue))
+            startActivity(intent)
+
+        }
     }
 }
 

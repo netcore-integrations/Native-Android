@@ -11,13 +11,11 @@ import com.netcore.android.smartechpush.pnpermission.SMTPNPermissionConstants
 import java.lang.ref.WeakReference
 
 class MainActivity : AppCompatActivity() {
-
-
     private lateinit var btnCe: CardView
     private lateinit var btnpx: CardView
 
 
-    //android 13 permissons code for android 13 and versions
+    //push notification  permissions code for Android 13 and above versions
 
     private val notificationPermissionCallback = object : SMTNotificationPermissionCallback {
         override fun notificationPermissionStatus(status: Int) {
@@ -34,7 +32,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
 
-//android 13 permissons code for android 13 and versions intializations
+//android 13 permissions code for android 13 and versions initialisations
         SmartPush.getInstance(WeakReference(applicationContext))
             .requestNotificationPermission(notificationPermissionCallback)
         SmartPush.getInstance(WeakReference(applicationContext)).updateNotificationPermission()
@@ -44,7 +42,7 @@ class MainActivity : AppCompatActivity() {
 
 
 
-        // Navigate ce dash board screen
+        // Navigate ce dashboard screen
         btnCe.setOnClickListener {
             val intent = Intent(this, DashBoardScreen::class.java)
             startActivity(intent)

@@ -9,6 +9,7 @@ import android.os.Build
 import android.text.TextUtils
 import android.util.Log
 import androidx.annotation.RequiresApi
+import androidx.core.content.ContextCompat
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.messaging.FirebaseMessaging
 import com.netcore.android.Smartech
@@ -49,7 +50,7 @@ class MainApplication : Application() {
         Hansel.enableDebugLogs()
 
 
-        //double optin push notification option
+        //double opt-in push notification option
         SmartPush.getInstance(WeakReference(this)).initiateNotificationDoubleOptIn()
         SmartPush.getInstance(WeakReference(this)).showInstantNotificationDoubleOptIn()
 
@@ -102,12 +103,17 @@ class MainApplication : Application() {
     private fun registerDeeplinkReceiver() {
         val deeplinkReceiver = DeeplinkReceiver()
         val filter = IntentFilter("com.smartech.EVENT_PN_INBOX_CLICK")
-
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
-            this.registerReceiver(deeplinkReceiver, filter, RECEIVER_EXPORTED)
+            applicationContext.registerReceiver(deeplinkReceiver, filter, RECEIVER_EXPORTED)
         } else {
-            this.registerReceiver(deeplinkReceiver, filter)
+            ContextCompat.registerReceiver(
+                applicationContext,
+                deeplinkReceiver,
+                filter,
+                ContextCompat.RECEIVER_NOT_EXPORTED
+            )
         }
+
     }
 
     private fun setupNotificationOptions() {

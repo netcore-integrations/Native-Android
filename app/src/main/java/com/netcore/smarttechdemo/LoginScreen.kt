@@ -107,6 +107,15 @@ class LoginScreen : AppCompatActivity(), View.OnClickListener {
     }
 
     private fun navigateToRegisterScreen() {
+        Toast.makeText(applicationContext, " tesr screen", Toast.LENGTH_SHORT).show()
+
+        /*val payload : HashMap<String, Any> = HashMap()
+        payload["AGE"] = 25
+        Smartech.getInstance(WeakReference(applicationContext)).updateUserProfile(payload)
+
+        Toast.makeText(applicationContext, " tesr screen"+payload, Toast.LENGTH_SHORT).show()
+
+        Smartech.getInstance(WeakReference(applicationContext)).trackEvent("add_to_whishlist", payload)*/
         startActivity(Intent(this, RegisterScreen::class.java))
     }
 

@@ -53,6 +53,11 @@ class DashBoardScreen : AppCompatActivity() {
         setContentView(R.layout.dashboard_screen)
         supportActionBar?.hide()
 
+        val isSmartechHandledDeeplink = Smartech.getInstance(WeakReference(this)).isDeepLinkFromSmartech(intent)
+        if (!isSmartechHandledDeeplink) {
+            //Handle deeplink on app side
+        }
+
         // Initialize all views
         initializeViews()
         // Initialize method for switches

@@ -61,10 +61,10 @@ dependencies {
 
 
 
-    implementation 'com.netcore.android:smartech-sdk:3.6.0'
-    implementation 'com.netcore.android:smartech-push:3.5.5'
-    implementation 'com.netcore.android:smartech-appinbox:3.5.1'
-    implementation 'com.netcore.android:smartech-nudges:10.2.6'
+    implementation 'com.netcore.android:smartech-sdk:3.6.4'
+    implementation 'com.netcore.android:smartech-push:3.5.7'
+    implementation 'com.netcore.android:smartech-appinbox:3.5.2'
+    implementation 'com.netcore.android:smartech-nudges:10.2.7'
     implementation platform('com.google.firebase:firebase-bom:28.4.2')
     implementation 'com.google.firebase:firebase-messaging'
     implementation 'com.google.firebase:firebase-analytics-ktx'

@@ -23,7 +23,7 @@
         <activity android:name=".RegisterScreen" />
         <activity android:name=".LoginScreen" />
         <activity android:name=".MainActivity" />
-        <activity android:name=".DashBoardScreen" />
+        <activity android:name=".DashBoardScreen"/>
         <activity android:name=".CustomInbox" />
         <activity android:name=".UpdateProfileScreen" />
         <activity android:name=".ConfigActivity" />
@@ -41,7 +41,7 @@
             </intent-filter>
 
 
-       <!-- Ease of onbarding test device code-->
+            <!-- Ease of onboarding test device code-->
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
@@ -60,13 +60,13 @@
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
 
-                <data android:scheme="netcore" />
+                <data android:scheme="smartechapp" />
             </intent-filter>
 
 
         </activity>
 
-        <!-- push notification service class intialization code-->
+        <!-- push notification service class initialisation code-->
 
         <service
             android:name=".Firebase_Service"
@@ -82,12 +82,17 @@
         <meta-data
             android:name="HANSEL_APP_KEY"
             android:value="KF7W5ANHUE36XMXMT4ETL146OJIOJFCYLSP438RY57SBRIAS2G" />
+       <!-- <meta-data
+            android:name="SMT_APP_ID"
+            android:value="97e11d692e102ac422570ee5fd49a2a3"/>   -->
+
+
         <meta-data
             android:name="SMT_APP_ID"
-            android:value="97e11d692e102ac422570ee5fd49a2a3"/>
+            android:value="bc27f59e25ec1dcc74f343111fb05190"/>
 
 
- <!--   Auto fetch location code-->
+        <!--   Auto fetch location code-->
         <meta-data
             android:name="SMT_IS_AUTO_FETCHED_LOCATION"
             android:value="1" />

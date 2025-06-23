@@ -17,8 +17,11 @@ import com.netcore.android.smartechappinbox.network.listeners.SMTInboxCallback
 import com.netcore.android.smartechappinbox.network.model.SMTInboxMessageData
 import com.netcore.android.smartechappinbox.utility.SMTAppInboxRequestBuilder
 import com.netcore.android.smartechappinbox.utility.SMTInboxDataType
+import com.netcore.android.smartechpush.SmartPush
 import io.hansel.hanselsdk.Hansel
 import java.lang.ref.WeakReference
+
+
 class RegisterScreen : AppCompatActivity(), View.OnClickListener {
     private lateinit var textEditTextUser: EditText
     private lateinit var textEditTextPassword1: EditText
@@ -35,6 +38,9 @@ class RegisterScreen : AppCompatActivity(), View.OnClickListener {
 
         // Safely hide the action bar
         supportActionBar?.hide()
+
+
+        SmartPush.getInstance(WeakReference(applicationContext)).showInstantNotificationDoubleOptIn()
 
         try {
             initViews()
@@ -54,6 +60,7 @@ class RegisterScreen : AppCompatActivity(), View.OnClickListener {
         btnLogin = findViewById(R.id.log_button)
         btnRegister = findViewById(R.id.reg_button)
         linearBodyReg = findViewById(R.id.linearBodyReg)
+
 
         // Check if any of these views are null
         if (textEditTextUser == null || textEditTextPassword1 == null || textEditTextPassword2 == null ||
@@ -88,6 +95,9 @@ class RegisterScreen : AppCompatActivity(), View.OnClickListener {
 
     // Save data to DB
     private fun postData() {
+
+
+
         if (!inputValidation.isTextFilled(textEditTextUser, getString(R.string.error_message_nofill_name))) {
             return
         }
