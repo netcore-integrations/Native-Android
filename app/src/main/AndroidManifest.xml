@@ -76,20 +76,7 @@
             </intent-filter>
         </service>
 
-        <meta-data
-            android:name="HANSEL_APP_ID"
-            android:value="O032WHH4VDVY9R9QE1486YHTA" />
-        <meta-data
-            android:name="HANSEL_APP_KEY"
-            android:value="KF7W5ANHUE36XMXMT4ETL146OJIOJFCYLSP438RY57SBRIAS2G" />
-       <!-- <meta-data
-            android:name="SMT_APP_ID"
-            android:value="97e11d692e102ac422570ee5fd49a2a3"/>   -->
 
-
-        <meta-data
-            android:name="SMT_APP_ID"
-            android:value="bc27f59e25ec1dcc74f343111fb05190"/>
 
 
         <!--   Auto fetch location code-->
