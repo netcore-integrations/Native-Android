@@ -12,7 +12,206 @@ import com.netcore.android.Smartech
 import io.hansel.hanselsdk.Hansel
 import java.lang.ref.WeakReference
 
+
+
 class LoginScreen : AppCompatActivity(), View.OnClickListener {
+
+    private lateinit var linearBody: LinearLayout
+    private lateinit var textEditTextUser: EditText
+    private lateinit var textEditTextPassword: EditText
+    private lateinit var btnLogin: Button
+    private lateinit var checkBox: CheckBox
+    private lateinit var btnRegister: Button
+    private lateinit var inputValidation: InputValidation
+    private lateinit var dbHelper: DbHelper
+    private lateinit var sharedPreferences: SharedPreferences
+
+    companion object {
+        const val SHARED_PREF_NAME = "Shared_pref"
+        const val KEY_EMAIL = "Email"
+        const val KEY_PASSWORD = "password"
+        const val KEY_CHECKBOX = "CHECKBOX"
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.login_screen)
+        supportActionBar?.hide()
+
+        initViews()
+        initListeners()
+        initObjects()
+
+        if (isUserLoggedIn()) {
+            autoLoginAndNavigate()
+        } else {
+            loadUserCredentials()
+        }
+    }
+
+    private fun initViews() {
+        textEditTextUser = findViewById(R.id.username_field)
+        textEditTextPassword = findViewById(R.id.password_field)
+        btnLogin = findViewById(R.id.login_button)
+        checkBox = findViewById(R.id.checkBox)
+        btnRegister = findViewById(R.id.register_button)
+        linearBody = findViewById(R.id.linearBody)
+    }
+
+    private fun initListeners() {
+        btnLogin.setOnClickListener(this)
+        btnRegister.setOnClickListener(this)
+    }
+
+    private fun initObjects() {
+        dbHelper = DbHelper(this)
+        inputValidation = InputValidation(this)
+        sharedPreferences = getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE)
+    }
+
+    private fun isUserLoggedIn(): Boolean {
+        val email = sharedPreferences.getString(KEY_EMAIL, null)
+        val password = sharedPreferences.getString(KEY_PASSWORD, null)
+        val isRemembered = sharedPreferences.getBoolean(KEY_CHECKBOX, false)
+        return isRemembered && !email.isNullOrEmpty() && !password.isNullOrEmpty()
+    }
+
+    private fun autoLoginAndNavigate() {
+        val email = sharedPreferences.getString(KEY_EMAIL, "")!!
+        val password = sharedPreferences.getString(KEY_PASSWORD, "")!!
+
+        if (dbHelper.logCheckUser(email, password)) {
+            //Smartech.getInstance(WeakReference(applicationContext)).login(email)
+           // Hansel.getUser().setUserId(email)
+            navigateToMainActivity(email)
+        } else {
+            sharedPreferences.edit().clear().apply()
+            Toast.makeText(this, "Saved login invalid. Please login again.", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private fun loadUserCredentials() {
+        val savedEmail = sharedPreferences.getString(KEY_EMAIL, null)
+        val savedPassword = sharedPreferences.getString(KEY_PASSWORD, null)
+        val isRemembered = sharedPreferences.getBoolean(KEY_CHECKBOX, false)
+
+        if (isRemembered && !savedEmail.isNullOrEmpty() && !savedPassword.isNullOrEmpty()) {
+            textEditTextUser.setText(savedEmail)
+            textEditTextPassword.setText(savedPassword)
+            checkBox.isChecked = true
+        } else {
+            textEditTextUser.text.clear()
+            textEditTextPassword.text.clear()
+            checkBox.isChecked = false
+        }
+    }
+
+    override fun onClick(v: View) {
+        when (v.id) {
+            R.id.login_button -> verifyFromDB()
+            R.id.register_button -> navigateToRegisterScreen()
+        }
+    }
+
+    private fun verifyFromDB() {
+        if (!inputValidation.isTextFilled(textEditTextUser, getString(R.string.error_message_nofill_name)) ||
+            !inputValidation.isTextFilled(textEditTextPassword, getString(R.string.error_message_nofill_pass))
+        ) return
+
+        val email = textEditTextUser.text.toString().trim()
+        val password = textEditTextPassword.text.toString().trim()
+
+        if (dbHelper.logCheckUser(email, password)) {
+            saveUserCredentials(email, password)
+            navigateToMainActivity(email)
+        } else {
+            Snackbar.make(linearBody, getString(R.string.error_message_invalid), Snackbar.LENGTH_LONG).show()
+        }
+    }
+
+    private fun saveUserCredentials(email: String, password: String) {
+        val editor = sharedPreferences.edit()
+
+        // Always login to SDKs
+        Smartech.getInstance(WeakReference(applicationContext)).login(email)
+        Hansel.getUser().setUserId(email)
+
+        if (checkBox.isChecked) {
+            editor.putString(KEY_EMAIL, email)
+            editor.putString(KEY_PASSWORD, password)
+            editor.putBoolean(KEY_CHECKBOX, true)
+            Toast.makeText(this, "User credentials saved", Toast.LENGTH_SHORT).show()
+        } else {
+            editor.clear()
+        }
+        editor.apply()
+    }
+
+    private fun navigateToRegisterScreen() {
+        startActivity(Intent(this, RegisterScreen::class.java))
+    }
+
+    private fun navigateToMainActivity(email: String) {
+        val mainIntent = Intent(this, MainActivity::class.java).apply {
+            putExtra("uname", email)
+        }
+        textEditTextUser.text.clear()
+        textEditTextPassword.text.clear()
+        startActivity(mainIntent)
+        finish()
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*class LoginScreen : AppCompatActivity(), View.OnClickListener {
 
     private lateinit var linearBody: LinearLayout
     private lateinit var textEditTextUser: EditText
@@ -108,14 +307,6 @@ class LoginScreen : AppCompatActivity(), View.OnClickListener {
 
     private fun navigateToRegisterScreen() {
         Toast.makeText(applicationContext, " tesr screen", Toast.LENGTH_SHORT).show()
-
-        /*val payload : HashMap<String, Any> = HashMap()
-        payload["AGE"] = 25
-        Smartech.getInstance(WeakReference(applicationContext)).updateUserProfile(payload)
-
-        Toast.makeText(applicationContext, " tesr screen"+payload, Toast.LENGTH_SHORT).show()
-
-        Smartech.getInstance(WeakReference(applicationContext)).trackEvent("add_to_whishlist", payload)*/
         startActivity(Intent(this, RegisterScreen::class.java))
     }
 
@@ -169,7 +360,7 @@ class LoginScreen : AppCompatActivity(), View.OnClickListener {
         startActivity(mainIntent)
         finish()
     }
-}
+}*/
 
 
 

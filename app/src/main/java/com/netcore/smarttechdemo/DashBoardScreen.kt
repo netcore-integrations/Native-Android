@@ -189,8 +189,8 @@ class DashBoardScreen : AppCompatActivity() {
         Toast.makeText(this, "User identity cleared!", Toast.LENGTH_SHORT).show()
         Smartech.getInstance(WeakReference(applicationContext)).clearUserIdentity()
     }
-    //clear use identity for smartech and hansel db
-    private fun logoutUser() {
+    //clear use identity for Smartech and hansel db
+   /* private fun logoutUser() {
 
         val editor = preferences.edit()
         editor.remove(LoginScreen.KEY_EMAIL)
@@ -212,7 +212,26 @@ class DashBoardScreen : AppCompatActivity() {
         finish()
 
 
+    }*/
+
+    private fun logoutUser() {
+        val editor = getSharedPreferences(LoginScreen.SHARED_PREF_NAME, Context.MODE_PRIVATE).edit()
+        editor.clear()
+        editor.apply()
+
+        Smartech.getInstance(WeakReference(applicationContext)).logoutAndClearUserIdentity(true)
+        Hansel.getUser().clear()
+
+        Toast.makeText(this, "User Logged Out!", Toast.LENGTH_SHORT).show()
+
+        val loginIntent = Intent(this, LoginScreen::class.java).apply {
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        }
+        startActivity(loginIntent)
+        finish()
     }
+
+
 
     // default Ui Appinbox code
 

@@ -82,6 +82,7 @@
 
 
 
+
         <!--   Auto fetch location code-->
         <meta-data
             android:name="SMT_IS_AUTO_FETCHED_LOCATION"
