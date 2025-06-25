@@ -29,7 +29,7 @@ class MainApplication : Application() {
     override fun onCreate() {
         super.onCreate()
 
-        // Initialize the Smartech SDK
+        //Initialise the Smartech SDK
         /*val smartech = Smartech.getInstance(WeakReference(applicationContext))
         smartech.initializeSdk(
             this,
@@ -37,6 +37,7 @@ class MainApplication : Application() {
             ConfigUtils.getConfigValue(this, "HANSEL_APP_ID"),
             ConfigUtils.getConfigValue(this, "HANSEL_APP_KEY")
         )*/
+
         val smartech = Smartech.getInstance(WeakReference(applicationContext))
         smartech.initializeSdk(this)
         smartech.setDebugLevel(SMTDebugLevel.Level.VERBOSE)
@@ -54,15 +55,10 @@ class MainApplication : Application() {
         SmartPush.getInstance(WeakReference(this)).initiateNotificationDoubleOptIn()
         SmartPush.getInstance(WeakReference(this)).showInstantNotificationDoubleOptIn()
 
-
-
-
         // Fetch the FCM token
         fetchFcmToken()
-
         // Register the DeeplinkReceiver
         registerDeeplinkReceiver()
-
         // Set up notification options
         setupNotificationOptions()
         setupNotificationSound()
@@ -162,9 +158,7 @@ class MainApplication : Application() {
 
 }
 
-private fun Smartech.initializeSdk() {
-    TODO("Not yet implemented")
-}
+
 
 
 /*

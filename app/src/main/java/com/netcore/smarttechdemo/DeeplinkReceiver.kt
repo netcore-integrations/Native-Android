@@ -1,18 +1,258 @@
 package com.netcore.smarttechdemo
-
-
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import androidx.core.net.toUri
 import com.netcore.android.SMTBundleKeys
 import org.json.JSONException
 import org.json.JSONObject
 
+
 class DeeplinkReceiver : BroadcastReceiver() {
 
+    override fun onReceive(context: Context?, intent: Intent?) {
+        try {
+            if (context == null || intent == null) {
+                Log.e("Harish Deeplink", "Context or intent is null")
+                return
+            }
+
+            val bundle = intent.extras
+            if (bundle == null) {
+                Log.e("Harish Deeplink", "Intent extras are null")
+                return
+            }
+
+            val deepLinkSource = bundle.getString(SMTBundleKeys.SMT_KEY_DEEPLINK_SOURCE)
+            val deepLinkValue = bundle.getString(SMTBundleKeys.SMT_KEY_DEEPLINK)
+            val customPayload = bundle.getString(SMTBundleKeys.SMT_KEY_CUSTOM_PAYLOAD)
+            val isFromBg = intent.getBooleanExtra(SMTBundleKeys.SMT_KEY_IS_DEEPLINK_FROM_BG, false)
+
+            Log.v("Harish Deeplink", "Deeplink: $deepLinkValue, Payload: $customPayload, Source: $deepLinkSource, From BG: $isFromBg")
+
+            when (deepLinkSource) {
+                "InAppMessage" -> {
+                    if (!deepLinkValue.isNullOrEmpty() && deepLinkValue.contains("deeplink-click", ignoreCase = true)) {
+                        handleCustomPayload(context, customPayload, isFromBg)
+                    }
+                }
+
+                "PushNotification" -> {
+                    if (isFromBg) {
+                        Handler(Looper.getMainLooper()).postDelayed({
+                            if (!deepLinkValue.isNullOrEmpty()) {
+                                handleDeeplink(context, deepLinkValue, isFromBg)
+                            } else if (!customPayload.isNullOrEmpty()) {
+                                handleCustomPayload(context, customPayload, isFromBg)
+                            }
+                        }, 2000)
+                    } else {
+                        if (!deepLinkValue.isNullOrEmpty()) {
+                            handleDeeplink(context, deepLinkValue, isFromBg)
+                        } else if (!customPayload.isNullOrEmpty()) {
+                            handleCustomPayload(context, customPayload, isFromBg)
+                        }
+                    }
+                }
+
+
+
+                else -> {
+                    Log.w("Harish Deeplink", "Unknown source: $deepLinkSource")
+                }
+            }
+
+        } catch (e: Exception) {
+            Log.e("Harish Deeplink", "Exception in onReceive", e)
+        }
+    }
+
+
+
+    private fun handleDeeplink(context: Context, deepLinkValue: String, isFromBg: Boolean) {
+        try {
+            val uri: Uri = deepLinkValue.toUri()
+            val scheme = uri.scheme ?: ""
+            val host = uri.host ?: ""
+            val full = "$scheme://$host"
+
+            when (full.lowercase()) {
+                "sampleapp://profile" -> openProfile(context, isFromBg)
+                "sampleapp://login" -> openLogin(context, isFromBg)
+                else -> {
+                    // Handle as a web or external URL
+                    val intent = Intent(Intent.ACTION_VIEW, uri).apply {
+                        flags = Intent.FLAG_ACTIVITY_NEW_TASK
+                        putExtra(SMTBundleKeys.SMT_KEY_IS_DEEPLINK_FROM_BG, isFromBg)
+                    }
+                    context.startActivity(intent)
+                }
+            }
+        } catch (e: Exception) {
+            Log.e("Harish Deeplink", "Error while handling deeplink", e)
+        }
+    }
+
+    private fun openProfile(context: Context, isFromBg: Boolean) {
+        try {
+            val intent = Intent(context, UpdateProfileScreen::class.java).apply {
+                flags = Intent.FLAG_ACTIVITY_NEW_TASK
+                putExtra(SMTBundleKeys.SMT_KEY_IS_DEEPLINK_FROM_BG, isFromBg)
+            }
+            context.startActivity(intent)
+        } catch (e: Exception) {
+            Log.e("Harish Deeplink", "Error opening profile screen", e)
+        }
+    }
+
+    private fun openLogin(context: Context, isFromBg: Boolean) {
+        try {
+            val intent = Intent(context, LoginScreen::class.java).apply {
+                flags = Intent.FLAG_ACTIVITY_NEW_TASK
+                putExtra(SMTBundleKeys.SMT_KEY_IS_DEEPLINK_FROM_BG, isFromBg)
+            }
+            context.startActivity(intent)
+        } catch (e: Exception) {
+            Log.e("Harish Deeplink", "Error opening login screen", e)
+        }
+    }
+
+
+    private fun handleCustomPayload(context: Context, customPayload: String?, isFromBg: Boolean = false) {
+        if (customPayload.isNullOrEmpty()) {
+            Log.w("Harish Deeplink", "Custom payload is null or empty")
+            return
+        }
+
+        try {
+            val json = JSONObject(customPayload)
+            val screenName = json.optString("screen")
+            val intent = when (screenName.lowercase()) {
+                "profile" -> Intent(context, UpdateProfileScreen::class.java)
+                "login" -> Intent(context, LoginScreen::class.java)
+                else -> null
+            }
+            intent?.apply {
+                addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                putExtra(SMTBundleKeys.SMT_KEY_IS_DEEPLINK_FROM_BG, isFromBg)
+                context.startActivity(this)
+            }
+        } catch (e: JSONException) {
+            Log.e("Harish Deeplink", "Invalid custom payload JSON", e)
+        }
+    }
+}
+
+
+
+
+
+
+
+
+
+
+//Handle external web site url redirection logic
+
+
+/*  private fun handleDeeplink(context: Context, deepLinkValue: String, isFromBg: Boolean) {
+
+        try {
+            val uri: Uri = deepLinkValue.toUri()
+            val intent = Intent(Intent.ACTION_VIEW, uri).apply {
+                flags = Intent.FLAG_ACTIVITY_NEW_TASK
+                putExtra(SMTBundleKeys.SMT_KEY_IS_DEEPLINK_FROM_BG, isFromBg)
+            }
+            context.startActivity(intent)
+        } catch (e: Exception) {
+            Log.e("Harish Deeplink", "Error while handling deeplink", e)
+        }
+    }*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*class DeeplinkReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context?, intent: Intent?) {
         try {
             if (context == null) {
@@ -123,7 +363,7 @@ class DeeplinkReceiver : BroadcastReceiver() {
             Log.e("Harish Deeplink", "Error opening login screen", e)
         }
     }
-}
+}*/
 
 
 
@@ -413,83 +653,7 @@ class DeeplinkReceiver : BroadcastReceiver() {
 
 
 
-    /*override fun onReceive(context: Context?, intent: Intent?) {
-        intent?.extras?.let { bundleExtra ->
 
-            // Check if the deeplink was triggered from the background
-            val isFromBg = bundleExtra.getBoolean(SMTBundleKeys.SMT_KEY_IS_DEEPLINK_FROM_BG, false)
-
-            // Extract deep link value
-            val deepLinkValue = bundleExtra.getString(SMTBundleKeys.SMT_KEY_DEEPLINK)
-            val customPayload = bundleExtra.getString(SMTBundleKeys.SMT_KEY_CUSTOM_PAYLOAD)
-
-
-            Log.v("Harish Deeplink", "Deeplink: $deepLinkValue, Payload: $customPayload, IsFromBG: $isFromBg")
-      //"screen": "profile"
-            if (!customPayload.isNullOrEmpty()) {
-                try {
-                    val jsonObject = JSONObject(customPayload)
-                    val screenName = jsonObject.optString("screen")
-
-                    if (screenName.equals("profile", ignoreCase = true)) {
-                        val profileIntent = Intent(context, UpdateProfileScreen::class.java)
-                        profileIntent.flags =
-                            Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
-                        context?.startActivity(profileIntent)
-                    }
-
-                    // You can handle other screens similarly
-                    // else if (screenName == "home") { ... }
-                } catch (e: JSONException) {
-                    e.printStackTrace()
-                }
-            }
-
-            if (!deepLinkValue.isNullOrEmpty()) {
-                if (isFromBg) {
-                    // Store the deep link to handle it later in SplashScreen
-                    context?.let {
-                        val sharedPref = it.getSharedPreferences("DeeplinkPrefs", Context.MODE_PRIVATE)
-                        sharedPref.edit().putString("DEEPLINK_URL", deepLinkValue).apply()
-                    }
-                } else {
-                    // Handle the deep link immediately
-                    handleDeeplink(context, deepLinkValue)
-                }
-            }
-        }
-    }
-
-    private fun handleDeeplink(context: Context?, deeplink: String) {
-        when (deeplink) {
-            "sampleapp://profile" -> openProfile(context)
-            "sampleapp://login" -> openLogin(context)
-            else -> {
-                val intent = Intent(Intent.ACTION_VIEW, Uri.parse(deeplink)).apply {
-                    flags = Intent.FLAG_ACTIVITY_NEW_TASK
-                }
-                context?.startActivity(intent)
-            }
-        }
-    }
-
-    private fun openProfile(context: Context?) {
-        context?.let {
-            val displayScreen = Intent(it, RegisterScreen::class.java).apply {
-                addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-            }
-            it.startActivity(displayScreen)
-        }
-    }
-
-    private fun openLogin(context: Context?) {
-        context?.let {
-            val displayScreen = Intent(it, LoginScreen::class.java).apply {
-                addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-            }
-            it.startActivity(displayScreen)
-        }
-    }*/
 
 
 
