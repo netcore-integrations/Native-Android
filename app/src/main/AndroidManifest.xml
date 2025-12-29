@@ -40,6 +40,16 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
 
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data android:scheme="netcore" />
+            </intent-filter>
+
+
 
             <!-- Ease of onboarding test device code-->
             <intent-filter>
@@ -50,17 +60,7 @@
 
                 <data
                     android:host="smartech_sdk_td"
-                    android:scheme="testandroid" />
-            </intent-filter>
-
-            <!-- Hansel test device code for nduges-->
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-
-                <data android:scheme="smartechapp" />
+                    android:scheme="events.sulekha.com" />
             </intent-filter>
 
 
@@ -78,8 +78,40 @@
             </intent-filter>
         </service>
 
+        <receiver
+            android:name="com.netcore.android.geofence.SMTGeofenceBootReceiver"
+            android:directBootAware="false"
+            android:enabled="true"
+            android:exported="false"
+            android:permission="android.permission.RECEIVE_BOOT_COMPLETED">
 
 
+            <intent-filter>
+                <action android:name="android.intent.action.LOCKED_BOOT_COMPLETED" />
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.intent.action.TIME_SET" />
+                <action android:name="android.intent.action.TIMEZONE_CHANGED" />
+            </intent-filter>
+        </receiver>
+
+
+
+
+
+        <meta-data
+            android:name="HANSEL_APP_ID"
+            android:value="O032WHH4VDVY9R9QE1486YHTA" />
+        <meta-data
+            android:name="HANSEL_APP_KEY"
+            android:value="KF7W5ANHUE36XMXMT4ETL146OJIOJFCYLSP438RY57SBRIAS2G" />
+         <meta-data
+             android:name="SMT_APP_ID"
+             android:value="97e11d692e102ac422570ee5fd49a2a3"/>
+
+
+      <!--  <meta-data
+            android:name="SMT_APP_ID"
+            android:value="bc27f59e25ec1dcc74f343111fb05190"/>-->
 
 
 
@@ -89,17 +121,17 @@
             android:value="1" />
 
         <!-- Enable encryption in local db-->
-        <meta-data
+       <!-- <meta-data
             android:name="SMT_USE_ENCRYPTION"
-            android:value="true" />
+            android:value="true" />-->
 
 
         <!-- Notification permission code auto ask -->
-        <meta-data
+       <!-- <meta-data
             android:name="SMT_IS_AUTO_ASK_NOTIFICATION_PERMISSION"
-            android:value="0" />
+            android:value="0" />-->
 
-        <meta-data
+       <!-- <meta-data
             android:name="SMT_OPT_IN_1_URL"
             android:value="https://cdnt.netcoresmartech.com/smartech-app-sdk/notification-optin/prod/pn-permission-prompt-02.html" />
         <meta-data
@@ -110,12 +142,12 @@
             android:value="2" />
         <meta-data
             android:name="SMT_OPT_IN_2_INTERVAL"
-            android:value="5" />
+            android:value="5" />-->
 
 
-        <meta-data
+  <!--      <meta-data
             android:name="SMT_IS_APP_ID_CHANGE_ENABLED"
-            android:value="1" />
+            android:value="1" />-->
 
 
     </application>

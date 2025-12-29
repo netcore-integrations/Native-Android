@@ -59,9 +59,9 @@ class Dynamicview : AppCompatActivity() {
                     myAdapter = DynamicAdapter(this@Dynamicview, productList)
                     mrecyclerView.adapter = myAdapter
 
-                    // Shuffle the data after 3 seconds as an example
+                  /*  // Shuffle the data after 3 seconds as an example
                     mrecyclerView.postDelayed({Collections.shuffle(productList) // Shuffle the list
-                        myAdapter.notifyDataSetChanged()}, 3000)
+                        myAdapter.notifyDataSetChanged()}, 3000)*/
                 } else {
                     Log.d("Dynamicview", "API Response Error: ${response.code()}")
                 }

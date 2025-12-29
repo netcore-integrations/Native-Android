@@ -24,6 +24,7 @@ class SplashScreen : AppCompatActivity() {
         // Pair test device
         Hansel.pairTestDevice(intent.dataString)
 
+
         // Smartech deeplink handling
         Smartech.getInstance(WeakReference(this)).isDeepLinkFromSmartech(intent)
 

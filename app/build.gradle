@@ -5,16 +5,16 @@ plugins {
 }
 
 android {
-    compileSdk 34
+    compileSdk 35
 
     defaultConfig {
         applicationId "com.netcore.smarttechdemo"
         minSdk 21
-        targetSdk 34
+        targetSdk 35
         versionCode 1
         versionName "1.0"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
@@ -23,6 +23,9 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+
+
+  
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
@@ -61,10 +64,10 @@ dependencies {
 
 
 
-    implementation 'com.netcore.android:smartech-sdk:3.6.4'
-    implementation 'com.netcore.android:smartech-push:3.5.7'
-    implementation 'com.netcore.android:smartech-appinbox:3.5.2'
-    implementation 'com.netcore.android:smartech-nudges:10.2.7'
+    implementation 'com.netcore.android:smartech-sdk:3.7.6'
+    implementation 'com.netcore.android:smartech-push:3.5.13'
+    implementation 'com.netcore.android:smartech-appinbox:3.5.4'
+    implementation 'com.netcore.android:smartech-nudges:10.2.11'
     implementation platform('com.google.firebase:firebase-bom:28.4.2')
     implementation 'com.google.firebase:firebase-messaging'
     implementation 'com.google.firebase:firebase-analytics-ktx'
@@ -81,8 +84,6 @@ dependencies {
 
     // picasso for loading images in my Image View
     implementation 'com.squareup.picasso:picasso:2.8'
-
-
 
 
 }

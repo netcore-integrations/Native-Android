@@ -18,7 +18,7 @@ class OnboardScreen : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.onboard_screen)
 
-        // Initialize Views
+        //Initialise Views
         appIdButton = findViewById(R.id.dash_appid)
         sdkRelases=findViewById(R.id.sdk_releases)
         loginButton = findViewById(R.id.login_id)

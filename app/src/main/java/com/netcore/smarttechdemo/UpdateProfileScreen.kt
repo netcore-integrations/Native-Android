@@ -23,7 +23,7 @@ class UpdateProfileScreen : AppCompatActivity() {
         val genderRadioGroup = findViewById<RadioGroup>(R.id.rg_gender)
         val submitButton = findViewById<Button>(R.id.btn_submit)
 
-        // Show Date Picker Dialog on DOB field click
+        // Show Date Picker Dialogue on DOB field click
         dobEditText.setOnClickListener {
             showDatePickerDialog { selectedDate ->
                 dobEditText.setText(selectedDate)
@@ -41,9 +41,7 @@ class UpdateProfileScreen : AppCompatActivity() {
             if (email.isEmpty() || mobile.isEmpty() || dob.isEmpty()) {
                 Toast.makeText(this, "All fields are required", Toast.LENGTH_SHORT).show()
             } else {
-
-
-                // User tracking code for smartech
+                // User tracking code for Smartech
                 val payload : HashMap<String, Any> = HashMap()
                 payload["EMAIL"] = email
                 payload["MOBILE"] = mobile

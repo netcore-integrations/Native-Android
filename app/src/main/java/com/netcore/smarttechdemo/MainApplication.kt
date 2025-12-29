@@ -40,7 +40,7 @@ class MainApplication : Application() {
 
         val smartech = Smartech.getInstance(WeakReference(applicationContext))
         smartech.initializeSdk(this)
-        smartech.setDebugLevel(SMTDebugLevel.Level.VERBOSE)
+        smartech.setDebugLevel(9)
         smartech.trackAppInstallUpdateBySmartech()
 
 
@@ -49,11 +49,13 @@ class MainApplication : Application() {
         HSLLogLevel.mid.isEnabled = true
         HSLLogLevel.debug.isEnabled = true
         Hansel.enableDebugLogs()
-
+        HSLLogLevel.all.setEnabled(true);
+        HSLLogLevel.mid.setEnabled(true);
+        HSLLogLevel.debug.setEnabled(true);
 
         //double opt-in push notification option
-        SmartPush.getInstance(WeakReference(this)).initiateNotificationDoubleOptIn()
-        SmartPush.getInstance(WeakReference(this)).showInstantNotificationDoubleOptIn()
+       // SmartPush.getInstance(WeakReference(this)).initiateNotificationDoubleOptIn()
+        //SmartPush.getInstance(WeakReference(this)).showInstantNotificationDoubleOptIn()
 
         // Fetch the FCM token
         fetchFcmToken()

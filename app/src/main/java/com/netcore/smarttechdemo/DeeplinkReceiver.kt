@@ -156,7 +156,7 @@ class DeeplinkReceiver : BroadcastReceiver() {
 
 
 
-//Handle external web site url redirection logic
+//Handle external website url redirection logic
 
 
 /*  private fun handleDeeplink(context: Context, deepLinkValue: String, isFromBg: Boolean) {

@@ -36,6 +36,8 @@ class LoginScreen : AppCompatActivity(), View.OnClickListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.login_screen)
+
+
         supportActionBar?.hide()
 
         initViews()
@@ -135,6 +137,7 @@ class LoginScreen : AppCompatActivity(), View.OnClickListener {
         // Always login to SDKs
         Smartech.getInstance(WeakReference(applicationContext)).login(email)
         Hansel.getUser().setUserId(email)
+
 
         if (checkBox.isChecked) {
             editor.putString(KEY_EMAIL, email)

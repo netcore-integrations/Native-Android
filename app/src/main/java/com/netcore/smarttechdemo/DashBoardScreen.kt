@@ -58,12 +58,12 @@ class DashBoardScreen : AppCompatActivity() {
             //Handle deeplink on app side
         }
 
-        // Initialize all views
+        //Initialise all views
         initializeViews()
-        // Initialize method for switches
+        //Initialise method for switches
         initializeSwitches()
 
-        // Initialize location client
+        //Initialise location client
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
 
         // Set click listeners
@@ -72,7 +72,7 @@ class DashBoardScreen : AppCompatActivity() {
 
 
 
-    //initalzation view
+    //initialisation view
     private fun initializeViews() {
         tvFcmToken = findViewById(R.id.tv_fcm_token)
         tvGuid = findViewById(R.id.tv_guid)
@@ -189,7 +189,7 @@ class DashBoardScreen : AppCompatActivity() {
         Toast.makeText(this, "User identity cleared!", Toast.LENGTH_SHORT).show()
         Smartech.getInstance(WeakReference(applicationContext)).clearUserIdentity()
     }
-    //clear use identity for Smartech and hansel db
+    //clear use identity for Smartech and Hansel DB
    /* private fun logoutUser() {
 
         val editor = preferences.edit()
@@ -238,7 +238,7 @@ class DashBoardScreen : AppCompatActivity() {
     private fun openAppInbox() {
         SmartechAppInbox.getInstance(WeakReference(applicationContext)).displayAppInbox(this)
         //double push notification option
-        SmartPush.getInstance(WeakReference(this)).resetNotificationDoubleOptIn()
+      //  SmartPush.getInstance(WeakReference(this)).resetNotificationDoubleOptIn()
     }
 
 
@@ -249,9 +249,9 @@ class DashBoardScreen : AppCompatActivity() {
     }
 
 
-    // opt in and opt out for push notification and custom events and inapp's
+    // opt in and opt out for push notification and custom events and in-apps's
     private fun initializeSwitches() {
-        // Initialize SmartPush and Smartech instances
+        //Initialise SmartPush and Smartech instances
         val smartPushInstance = SmartPush.getInstance(WeakReference(this))
         val smartechInstance = Smartech.getInstance(WeakReference(this))
 
@@ -278,7 +278,7 @@ class DashBoardScreen : AppCompatActivity() {
 
 
 
-// Location permissons and Track lat and longitude
+// Location permissions and Track lat and longitude
     private fun setLocation() {
         if (checkPermissions()) {
             getCurrentLocation()
