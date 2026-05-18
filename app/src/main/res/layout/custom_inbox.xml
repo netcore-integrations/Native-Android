@@ -1,52 +1,152 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<androidx.coordinatorlayout.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="16dp"
-    android:background="@color/background_color"> <!-- Background color for the screen -->
+    android:background="@color/inbox_surface">
 
-    <Button
-        android:id="@+id/btn_appinbox"
+    <!-- App bar -->
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="CUSTOM INBOX"
-        android:backgroundTint="@color/button_color"
-        android:textColor="@android:color/white"
-        android:padding="12dp"
-        android:elevation="4dp" />
+        android:background="@color/inbox_accent"
+        app:elevation="4dp">
 
-    <ProgressBar
-        android:id="@+id/progressBar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:visibility="gone"
-        android:layout_gravity="center"
-        android:indeterminateTint="@color/progress_color" />
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            app:titleTextColor="@android:color/white"
+            app:title="Inbox"
+            app:titleTextAppearance="@style/TextAppearance.MaterialComponents.Headline6">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView"
+            <!-- Bell + badge container -->
+            <FrameLayout
+                android:id="@+id/bell_container"
+                android:layout_width="44dp"
+                android:layout_height="44dp"
+                android:layout_gravity="end"
+                android:layout_marginEnd="4dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?attr/selectableItemBackgroundBorderless">
+
+                <ImageView
+                    android:layout_width="26dp"
+                    android:layout_height="26dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/ic_notifications_24"
+                    android:tint="@android:color/white" />
+
+                <TextView
+                    android:id="@+id/tv_badge_count"
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
+                    android:layout_gravity="top|end"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginEnd="2dp"
+                    android:background="@drawable/badge_background"
+                    android:gravity="center"
+                    android:textColor="@android:color/white"
+                    android:textSize="9sp"
+                    android:textStyle="bold"
+                    android:visibility="gone" />
+
+            </FrameLayout>
+
+        </com.google.android.material.appbar.MaterialToolbar>
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <!-- Main content -->
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="16dp"
-        android:background="@color/recycler_background_color"
-        android:padding="8dp" />
-</LinearLayout>
+        android:orientation="vertical"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
+        <!-- Swipe hint bar -->
+        <TextView
+            android:id="@+id/tv_swipe_hint"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="← Swipe left to remove a message"
+            android:textSize="12sp"
+            android:textColor="@color/inbox_time"
+            android:gravity="end"
+            android:paddingHorizontal="16dp"
+            android:paddingVertical="6dp"
+            android:background="@color/inbox_surface"
+            android:visibility="gone" />
 
+        <!-- Loading spinner -->
+        <ProgressBar
+            android:id="@+id/progressBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="48dp"
+            android:indeterminateTint="@color/inbox_accent"
+            android:visibility="gone" />
 
+        <!-- SwipeRefreshLayout wraps the RecyclerView -->
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/swipeRefresh"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:visibility="gone">
 
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingTop="6dp"
+                android:paddingBottom="16dp"
+                android:clipToPadding="false" />
 
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
+        <!-- Empty state — shown when list is empty -->
+        <LinearLayout
+            android:id="@+id/empty_state"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:padding="32dp"
+            android:visibility="gone">
 
+            <ImageView
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:src="@drawable/ic_inbox_empty"
+                android:alpha="0.85" />
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="Your inbox is empty"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textColor="@color/inbox_title_read" />
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="New messages will appear here.\nPull down to refresh."
+                android:textSize="14sp"
+                android:textColor="@color/inbox_desc"
+                android:gravity="center"
+                android:lineSpacingMultiplier="1.4" />
 
+        </LinearLayout>
 
+    </LinearLayout>
 
-
-
-
-
-
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

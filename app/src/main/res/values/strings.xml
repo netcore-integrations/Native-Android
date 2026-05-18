@@ -65,6 +65,10 @@
     <string name="app_inbox">Default Inbox</string>
     <string name="custom_app_inbox">Custom Inbox</string>
     <string name="title_activity_hansel_ignore_view">Hansel_IgnoreView</string>
+    <string name="web_view">Web View</string>
+    <string name="list_in_list">List In List</string>
+    <string name="no_notifications">You don\'t have any notifications</string>
+    <string name="notification">Notifications</string>
     <!-- Strings used for fragments for navigation -->
     <string name="first_fragment_label">First Fragment</string>
     <string name="second_fragment_label">Second Fragment</string>

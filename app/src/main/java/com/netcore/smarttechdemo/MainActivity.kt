@@ -1,517 +1,175 @@
 package com.netcore.smarttechdemo
 
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.View
+import android.widget.ImageView
+import android.widget.LinearLayout
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.cardview.widget.CardView
-import com.netcore.android.Smartech
-import com.netcore.android.contentpz.SMTWidgetListener
-import com.netcore.android.contentpz.model.SMTWidget
+import androidx.core.content.ContextCompat
+import androidx.viewpager2.widget.ViewPager2
+import com.google.android.material.card.MaterialCardView
 import com.netcore.android.smartechpush.SmartPush
 import com.netcore.android.smartechpush.pnpermission.SMTNotificationPermissionCallback
 import com.netcore.android.smartechpush.pnpermission.SMTPNPermissionConstants
 import java.lang.ref.WeakReference
 
-import android.widget.*
-import androidx.core.content.ContextCompat
-import com.bumptech.glide.Glide
-
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var btnCe: CardView
-    private lateinit var btnPx: CardView
-    private lateinit var widgetContainer: LinearLayout
+    private lateinit var btnCe: MaterialCardView
+    private lateinit var btnPx: MaterialCardView
+    private lateinit var vpBanners: ViewPager2
+    private lateinit var llDots: LinearLayout
 
-    // Push notification permissions for Android 13+
+    // Auto-scroll banner
+    private val bannerHandler = Handler(Looper.getMainLooper())
+    private var currentBannerPage = 0
+
+    private val banners = listOf(
+        BannerItem(
+            tag = "BIRTHDAY SPECIAL",
+            title = "Happy Birthday\nfrom Boost!",
+            subtitle = "Here is our special gift just for you",
+            ctaText = "CLAIM GIFT",
+            bgDrawable = R.drawable.bg_banner_slide_1
+        ),
+        BannerItem(
+            tag = "NEW FEATURE",
+            title = "Dynamic Indexing\nNow Live!",
+            subtitle = "Personalize every screen with Hansel nudges",
+            ctaText = "EXPLORE NOW",
+            bgDrawable = R.drawable.bg_banner_slide_2
+        ),
+        BannerItem(
+            tag = "PROMO",
+            title = "Push Notifications\nDone Right",
+            subtitle = "Double opt-in, channels and geofence ready",
+            ctaText = "LEARN MORE",
+            bgDrawable = R.drawable.bg_banner_slide_3
+        )
+    )
+
     private val notificationPermissionCallback = object : SMTNotificationPermissionCallback {
         override fun notificationPermissionStatus(status: Int) {
-            if (status == SMTPNPermissionConstants.SMT_PN_PERMISSION_GRANTED) {
-                println("✅ Notification permission granted")
-            } else {
-                println("❌ Notification permission denied")
-            }
+            // Status handled by SDK internally
         }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        supportActionBar?.hide()
 
-        // Set the SMTWidgetListener
-      //  Smartech.getInstance(WeakReference(this)).setWidgetListener(this, this)
-
-        // Fetch widgets
-      //  Smartech.getInstance(WeakReference(this)).getAllWidgets()
-       // val widget = Smartech.getInstance(WeakReference(this)).getWidgetByName("testing")
-       // println("widget data: $widget")
-
-        // Android 13+ Notification permission
-      /*  SmartPush.getInstance(WeakReference(applicationContext))
-            .requestNotificationPermission(notificationPermissionCallback)
-        SmartPush.getInstance(WeakReference(applicationContext))
-            .updateNotificationPermission()*/
-
-        // Initialize UI elements
-        initUI()
-
-        // Navigate CE dashboard screen
-        btnCe.setOnClickListener {
-            startActivity(Intent(this, DashBoardScreen::class.java))
-        }
-
-        // Navigate to Product Experience screen
-        btnPx.setOnClickListener {
-            startActivity(Intent(this, ProductExperienceDashBoard::class.java))
-        }
-    }
-
-    private fun initUI() {
-        btnCe = findViewById(R.id.btn_ce)
-        btnPx = findViewById(R.id.btn_px)
-        widgetContainer = findViewById(R.id.widgetContainer)
-    }
-
-    /*override fun onWidgetsLoaded(data: HashMap<String, SMTWidget?>) {
-
-        println("widget data$data")
-        // Handle loaded widgets safely
-        for ((_, widget) in data) {
-            if (widget != null && widget.layoutType.equals("image", ignoreCase = true)) {
-                runOnUiThread {
-                    showImageWidget(widget)
-                }
-            } else {
-                println("⚠️ Widget is null or not image type")
-            }
-        }
-    }
-
-    private fun showImageWidget(widget: SMTWidget) {
-        val content = widget.content ?: return
-        widgetContainer.visibility = View.VISIBLE
-        widgetContainer.removeAllViews()
-
-        // Image
-        val imageView = ImageView(this).apply {
-            layoutParams = LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                500
-            )
-            scaleType = ImageView.ScaleType.CENTER_CROP
-        }
-
-        Glide.with(this).load(content.mediaUrl).into(imageView)
-        widgetContainer.addView(imageView)
-
-        // Action Button
-        val actionButtons = content.actionButtons
-        if (!actionButtons.isNullOrEmpty()) {
-            val buttonData = actionButtons[0]
-
-            val button = Button(this).apply {
-                text = buttonData.actionName ?: "Action"
-                buttonData.backgroundColor?.let {
-                    setBackgroundColor(android.graphics.Color.parseColor(it))
-                }
-                buttonData.textColor?.let {
-                    setTextColor(android.graphics.Color.parseColor(it))
-                }
-                setPadding(24, 12, 24, 12)
-            }
-
-            button.setOnClickListener {
-                buttonData.actionDeeplink?.let { deeplink ->
-                    val intent = Intent(Intent.ACTION_VIEW, Uri.parse(deeplink))
-                    startActivity(intent)
-                }
-            }
-
-            val params = LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.WRAP_CONTENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT
-            ).apply {
-                topMargin = 32
-                gravity = android.view.Gravity.CENTER
-            }
-            widgetContainer.addView(button, params)
-        }
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        // Remove listener to avoid memory leaks
-        Smartech.getInstance(WeakReference(this)).removeWidgetListener(this)
-    }*/
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*class MainActivity : AppCompatActivity(), SMTWidgetListener {
-
-    private lateinit var btnCe: CardView
-    private lateinit var btnpx: CardView
-
-    // Push notification permissions for Android 13+
-    private val notificationPermissionCallback = object : SMTNotificationPermissionCallback {
-        override fun notificationPermissionStatus(status: Int) {
-            if (status == SMTPNPermissionConstants.SMT_PN_PERMISSION_GRANTED) {
-                // Permission granted
-            } else {
-                // Permission denied
-            }
-        }
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-
-        // Set the SMTWidgetListener
-        Smartech.getInstance(WeakReference(applicationContext)).setWidgetListener(this,this)
-
-        // Fetch widgets
-
-        Smartech.getInstance(WeakReference(this)).getAllWidgets()
-        val widget = Smartech.getInstance(WeakReference(this)).getWidgetByName("testing")
-        println("widget data: $widget")
-
-
-        // Android 13+ permissions
         SmartPush.getInstance(WeakReference(applicationContext))
             .requestNotificationPermission(notificationPermissionCallback)
         SmartPush.getInstance(WeakReference(applicationContext))
             .updateNotificationPermission()
 
-        // Initialize UI elements
         initUI()
+        setupBannerCarousel()
+        setupNavigation()
+    }
 
-        // Navigate CE dashboard screen
+    override fun onResume() {
+        super.onResume()
+        startBannerAutoScroll()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        bannerHandler.removeCallbacksAndMessages(null)
+    }
+
+    // ── UI init ───────────────────────────────────────────────────────────
+    private fun initUI() {
+        btnCe = findViewById(R.id.btn_ce)
+        btnPx = findViewById(R.id.btn_px)
+        vpBanners = findViewById(R.id.vp_banners)
+        llDots = findViewById(R.id.ll_dots)
+
+        // Quick links
+        findViewById<MaterialCardView>(R.id.btn_dynamic_view)?.setOnClickListener {
+            startActivity(Intent(this, Dynamicview::class.java))
+        }
+        findViewById<MaterialCardView>(R.id.btn_quick_inbox)?.setOnClickListener {
+            startActivity(Intent(this, DashBoardScreen::class.java))
+        }
+        findViewById<ImageView>(R.id.btn_profile_header)?.setOnClickListener {
+            startActivity(Intent(this, UpdateProfileScreen::class.java))
+        }
+    }
+
+    // ── Navigation ────────────────────────────────────────────────────────
+    private fun setupNavigation() {
         btnCe.setOnClickListener {
             startActivity(Intent(this, DashBoardScreen::class.java))
         }
-
-        // Navigate to Product Experience screen
-        btnpx.setOnClickListener {
+        btnPx.setOnClickListener {
             startActivity(Intent(this, ProductExperienceDashBoard::class.java))
         }
     }
 
-    private fun initUI() {
-        btnCe = findViewById(R.id.btn_ce)
-        btnpx = findViewById(R.id.btn_px)
-    }
+    // ── Banner carousel ───────────────────────────────────────────────────
+    private fun setupBannerCarousel() {
+        val adapter = BannerAdapter(banners) { item ->
+            Toast.makeText(this, "${item.ctaText} tapped", Toast.LENGTH_SHORT).show()
+        }
+        vpBanners.adapter = adapter
+        vpBanners.offscreenPageLimit = 1
 
-    override fun onWidgetsLoaded(data: HashMap<String, SMTWidget?>) {
-        // Handle loaded widgets safely
-        for ((name, widget) in data) {
-            if (widget != null) {
-                println("Widget loaded: $name → ${widget}")
-            } else {
-                println("Widget $name is null")
+        // Build initial dots
+        buildDots(banners.size, 0)
+
+        // Update dots on page change
+        vpBanners.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+            override fun onPageSelected(position: Int) {
+                currentBannerPage = position
+                buildDots(banners.size, position)
+                // Restart auto-scroll after manual swipe
+                bannerHandler.removeCallbacksAndMessages(null)
+                startBannerAutoScroll()
             }
+        })
+    }
+
+    // ── Dots: pill shape for active, circle for inactive ─────────────────
+    private fun buildDots(count: Int, selected: Int) {
+        llDots.removeAllViews()
+        val density = resources.displayMetrics.density
+        val dotH = (6 * density).toInt()
+        val activeW = (20 * density).toInt()   // pill
+        val inactiveW = (6 * density).toInt()  // circle
+        val margin = (4 * density).toInt()
+
+        for (i in 0 until count) {
+            val dot = View(this)
+            val lp = LinearLayout.LayoutParams(
+                if (i == selected) activeW else inactiveW,
+                dotH
+            )
+            lp.setMargins(margin, 0, margin, 0)
+            dot.layoutParams = lp
+            dot.background = ContextCompat.getDrawable(
+                this,
+                if (i == selected) R.drawable.dot_active else R.drawable.dot_inactive
+            )
+            llDots.addView(dot)
         }
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        // Remove listener to avoid memory leaks
-        Smartech.getInstance(WeakReference(this)).removeWidgetListener(this)
-    }
-}*/
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*class MainActivity : AppCompatActivity(), SMTWidgetListener {
-    private lateinit var btnCe: CardView
-    private lateinit var btnpx: CardView
-
-
-    //push notification  permissions code for Android 13 and above versions
-
-    private val notificationPermissionCallback = object : SMTNotificationPermissionCallback {
-        override fun notificationPermissionStatus(status: Int) {
-            if (status == SMTPNPermissionConstants.SMT_PN_PERMISSION_GRANTED) {
-                // Handle the status when permission is granted
-            } else {
-                // Handle the status when permission is denied
+    // ── Auto-scroll every 3.5 s ───────────────────────────────────────────
+    private fun startBannerAutoScroll() {
+        bannerHandler.postDelayed(object : Runnable {
+            override fun run() {
+                if (banners.isNotEmpty()) {
+                    currentBannerPage = (currentBannerPage + 1) % banners.size
+                    vpBanners.setCurrentItem(currentBannerPage, true)
+                }
+                bannerHandler.postDelayed(this, 3500L)
             }
-        }
+        }, 3500L)
     }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-
-        // Set the SMTWidgetListener
-        Smartech.getInstance(WeakReference(this)).setWidgetListener(
-            this,
-            listener = TODO()
-        )
-
-        Smartech.getInstance(WeakReference(this)).getAllWidgets()
-
-        Smartech.getInstance(WeakReference(this)).getWidgetByName("testing")
-//android 13 permissions code for android 13 and versions initialisations
-        SmartPush.getInstance(WeakReference(applicationContext))
-            .requestNotificationPermission(notificationPermissionCallback)
-        SmartPush.getInstance(WeakReference(applicationContext)).updateNotificationPermission()
-
-        initUI() // Initialize UI elements
-
-
-
-
-        // Navigate ce dashboard screen
-        btnCe.setOnClickListener {
-            val intent = Intent(this, DashBoardScreen::class.java)
-            startActivity(intent)
-        }
-
-   // Naviagate to product experience screen
-        btnpx.setOnClickListener {
-            startActivity(Intent(this, ProductExperienceDashBoard::class.java))
-        }
-
-
-    }
-
-
-
-    private fun initUI() {
-        btnCe = findViewById(R.id.btn_ce)
-        btnpx = findViewById(R.id.btn_px)
-
-
-    }
-
-    override fun onWidgetsLoaded(data: HashMap<String, SMTWidget?>) {
-        TODO("Not yet implemented")
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        // Remove listener to avoid memory leaks
-        Smartech.getInstance(WeakReference(this)).removeWidgetListener(this)
-    }
-}*/
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+}

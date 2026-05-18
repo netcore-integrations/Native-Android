@@ -1,117 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
 <ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:padding="16dp"
-    tools:context=".DashBoardScreen">
+    android:layout_height="match_parent">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:paddingTop="4dp"
-        android:paddingBottom="6dp">
+        android:paddingTop="14dp"
+        android:paddingBottom="36dp">
 
-
+        <!-- FCM Token -->
         <TextView
             style="@style/SectionHeaderStyle"
-            android:layout_marginTop="20dp"
-            android:textSize="25sp"
-            android:text="@string/ce"
-            android:textColor="@color/colorAccent"/>
+            android:text="@string/fcm_token" />
 
-        <!-- FCM Token Section -->
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:padding="12dp"
-            android:background="@android:color/white"
-            android:elevation="4dp">
+        <TextView
+            android:id="@+id/tv_fcm_token"
+            style="@style/SectionItemStyle"
+            android:drawablePadding="12dp"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:text="@string/not_available"
+            app:drawableEndCompat="@drawable/ic_copy_24"
+            app:drawableStartCompat="@drawable/ic_firebase_24" />
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingStart="4dp"
-                android:paddingEnd="4dp"
-                android:text="@string/fcm_token"
-                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                android:textColor="@android:color/black"
-                app:layout_constraintBottom_toTopOf="@id/tv_fcm_token" />
+        <!-- Device GUID -->
+        <TextView
+            style="@style/SectionHeaderStyle"
+            android:layout_marginTop="1dp"
+            android:text="@string/device_unique_id" />
 
-            <TextView
-                android:id="@+id/tv_fcm_token"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:drawablePadding="12dp"
-                android:ellipsize="end"
-                android:gravity="center_vertical"
-                android:maxLines="2"
-                android:paddingStart="8dp"
-                android:paddingEnd="8dp"
-                android:text="@string/not_available"
-                android:textColor="@android:color/black"
-                app:drawableEndCompat="@drawable/ic_copy_24"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
+        <TextView
+            android:id="@+id/tv_guid"
+            style="@style/SectionItemStyle"
+            android:drawablePadding="12dp"
+            android:text="@string/not_available"
+            app:drawableEndCompat="@drawable/ic_copy_24"
+            app:drawableStartCompat="@drawable/ic_verified_user_24" />
 
-        <!-- Device Unique ID Section -->
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:padding="12dp"
-            android:background="@android:color/white"
-            android:elevation="4dp">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingStart="8dp"
-                android:paddingEnd="8dp"
-                android:text="@string/device_unique_id"
-                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                android:textColor="@android:color/black"
-                app:layout_constraintBottom_toTopOf="@id/tv_guid" />
-
-            <TextView
-                android:id="@+id/tv_guid"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:drawablePadding="12dp"
-                android:gravity="center_vertical"
-                android:paddingStart="8dp"
-                android:paddingEnd="8dp"
-                android:text="@string/not_available"
-                android:textColor="@android:color/black"
-                app:drawableEndCompat="@drawable/ic_copy_24"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <!-- Tracking Events Section -->
-
-        <!-- Tracking Events Section -->
+        <!-- Tracking Events -->
         <TextView
             style="@style/SectionHeaderStyle"
             android:layout_marginTop="10dp"
-            android:text="@string/tracking_events"
-            android:textColor="@color/black"
-            android:paddingBottom="8dp" />
+            android:text="@string/tracking_events" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:padding="1dp"
-            android:layout_marginTop="8dp"
             android:background="@color/colorLightGrey"
-            android:elevation="1dp">
+            android:orientation="horizontal"
+            android:padding="1dp">
 
-            <!-- Add to Wish List -->
             <TextView
                 android:id="@+id/tv_add_to_wish_list"
                 style="@style/SectionItemStyle"
@@ -123,11 +65,9 @@
                 android:paddingStart="12dp"
                 android:paddingEnd="12dp"
                 android:text="@string/add_to_wish_list"
-                android:textColor="@android:color/black"
                 android:textSize="12sp"
                 app:drawableStartCompat="@drawable/ic_heart_24" />
 
-            <!-- Add to Cart -->
             <TextView
                 android:id="@+id/tv_add_to_cart"
                 style="@style/SectionItemStyle"
@@ -139,11 +79,9 @@
                 android:paddingStart="12dp"
                 android:paddingEnd="12dp"
                 android:text="@string/add_to_cart"
-                android:textColor="@android:color/black"
                 android:textSize="12sp"
                 app:drawableStartCompat="@drawable/ic_add_shopping_cart_24" />
 
-            <!-- Checkout -->
             <TextView
                 android:id="@+id/tv_checkout"
                 style="@style/SectionItemStyle"
@@ -155,150 +93,95 @@
                 android:paddingStart="12dp"
                 android:paddingEnd="12dp"
                 android:text="@string/checkout"
-                android:textColor="@android:color/black"
                 android:textSize="12sp"
                 app:drawableStartCompat="@drawable/ic_check_24" />
+
         </LinearLayout>
 
+        <!-- User Actions -->
         <TextView
             style="@style/SectionHeaderStyle"
-            android:layout_marginTop="20dp"
-            android:text="@string/tracking_users"
-            android:textColor="@color/black" />
+            android:layout_marginTop="1dp"
+            android:text="@string/tracking_users" />
 
         <TextView
             android:id="@+id/tv_update_profile"
             style="@style/SectionItemStyle"
             android:text="@string/update_profile"
-            android:textColor="@android:color/black"
-            app:drawableStartCompat="@drawable/ic_account_circle_24"
-            android:drawablePadding="8dp" />
+            app:drawableStartCompat="@drawable/ic_account_circle_24" />
 
         <TextView
             android:id="@+id/tv_clear_identity"
             style="@style/SectionItemStyle"
             android:text="@string/clear_user_identity"
-            android:textColor="@android:color/black"
-            app:drawableStartCompat="@drawable/ic_person_add_disabled_24"
-            android:drawablePadding="8dp" />
+            app:drawableStartCompat="@drawable/ic_person_add_disabled_24" />
 
         <TextView
             android:id="@+id/tv_logout"
             style="@style/SectionItemStyle"
             android:text="@string/logout"
-            android:textColor="@android:color/black"
-            app:drawableStartCompat="@drawable/ic_exit_24"
-            android:drawablePadding="8dp" />
+            app:drawableStartCompat="@drawable/ic_exit_24" />
 
-
+        <!-- Advanced -->
         <TextView
             style="@style/SectionHeaderStyle"
             android:layout_marginTop="10dp"
-            android:text="@string/gdpr_setup"
-            android:textColor="@color/black" />
-
-
-        <!-- Push Notifications Switch -->
-        <androidx.appcompat.widget.SwitchCompat
-            android:id="@+id/sw_opt_pn"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:drawableStart="@drawable/ic_notifications_24"
-            android:text="@string/opt_push_notifications"
-            android:textColor="@color/textPrimary"
-            style="@style/SectionItemStyle"
-            android:background="?attr/selectableItemBackground"
-            app:thumbTint="@color/switchThumb"
-            app:trackTint="@color/switchTrack" />
-
-        <!-- In-App Messages Switch -->
-        <androidx.appcompat.widget.SwitchCompat
-            android:id="@+id/sw_opt_in_app"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:drawableStart="@drawable/ic_comment_24"
-            android:text="@string/opt_in_apps"
-            style="@style/SectionItemStyle"
-            android:textColor="@color/textPrimary"
-            android:background="?attr/selectableItemBackground"
-            app:thumbTint="@color/switchThumb"
-            app:trackTint="@color/switchTrack" />
-
-        <!-- Tracking Switch -->
-        <androidx.appcompat.widget.SwitchCompat
-            android:id="@+id/sw_opt_tracking"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            style="@style/SectionItemStyle"
-            android:drawableStart="@drawable/ic_trending_up_24"
-            android:text="@string/opt_tracking"
-            android:textColor="@color/textPrimary"
-            android:background="?attr/selectableItemBackground"
-            app:thumbTint="@color/switchThumb"
-            app:trackTint="@color/switchTrack" />
-
-
-
-
-
--->
-        <!-- Advanced Section -->
-        <TextView
-            style="@style/SectionHeaderStyle"
-            android:layout_marginTop="20dp"
-            android:text="@string/advanced"
-            android:textColor="@color/black" />
+            android:text="@string/advanced" />
 
         <TextView
             android:id="@+id/tv_appinox"
             style="@style/SectionItemStyle"
+            android:drawablePadding="8dp"
             android:text="@string/app_inbox"
-            android:textColor="@android:color/black"
-            app:drawableStartCompat="@drawable/ic_notifications_24"
-            android:drawablePadding="8dp" />
+            app:drawableStartCompat="@drawable/ic_notifications_24" />
 
         <TextView
             android:id="@+id/tv_customappinox"
             style="@style/SectionItemStyle"
+            android:drawablePadding="8dp"
             android:text="@string/custom_app_inbox"
-            android:textColor="@android:color/black"
-            app:drawableStartCompat="@drawable/ic_notifications_24"
-            android:drawablePadding="8dp" />
+            app:drawableStartCompat="@drawable/ic_notifications_24" />
 
         <TextView
             android:id="@+id/tv_set_location"
             style="@style/SectionItemStyle"
+            android:drawablePadding="8dp"
             android:text="@string/set_location"
-            android:textColor="@android:color/black"
-            app:drawableStartCompat="@drawable/ic_location_24"
-            android:drawablePadding="8dp" />
+            app:drawableStartCompat="@drawable/ic_location_24" />
 
-        <!--<TextView
-            style="@style/SectionHeaderStyle"
-            android:layout_marginTop="10dp"
-            android:text="@string/nudges_px" />-->
-
-        <!--<TextView
-            android:id="@+id/tv_ignoretag"
+        <TextView
+            android:id="@+id/tv_webview"
             style="@style/SectionItemStyle"
-            android:text="@string/hansel_ignore"
-            android:textColor="@android:color/black"
-            app:drawableStartCompat="@drawable/ic_ignore_view"
-            android:drawablePadding="8dp" />-->
+            android:drawablePadding="8dp"
+            android:text="@string/web_view"
+            app:drawableStartCompat="@drawable/ic_arrow_forward_24" />
+
+        <TextView
+            android:id="@+id/tv_list_in_list"
+            style="@style/SectionItemStyle"
+            android:drawablePadding="8dp"
+            android:text="@string/list_in_list"
+            app:drawableStartCompat="@drawable/ic_arrow_forward_24" />
+
+        <!-- Opt-in switches -->
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/sw_opt_pn"
+            style="@style/SectionItemStyle"
+            android:drawableStart="@drawable/ic_notifications_24"
+            android:text="@string/opt_push_notifications" />
+
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/sw_opt_in_app"
+            style="@style/SectionItemStyle"
+            android:drawableStart="@drawable/ic_comment_24"
+            android:text="@string/opt_in_apps" />
+
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/sw_opt_tracking"
+            style="@style/SectionItemStyle"
+            android:drawableStart="@drawable/ic_trending_up_24"
+            android:text="@string/opt_tracking" />
+
     </LinearLayout>
+
 </ScrollView>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

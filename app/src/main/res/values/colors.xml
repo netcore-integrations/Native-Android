@@ -37,6 +37,45 @@
     <color name="cardColor1">#FF8A65</color>
     <color name="cardColor2">#4FC3F7</color>
 
+    <!-- ── Netcore Brand ────────────────────────────────────────────────── -->
+    <color name="nc_primary">#1565C0</color>
+    <color name="nc_primary_dark">#003c8f</color>
+    <color name="nc_primary_light">#5e92f3</color>
+    <color name="nc_accent">#FF6D00</color>
+    <color name="nc_accent_light">#FF9E40</color>
+    <color name="nc_bg">#EEF2FF</color>
+    <color name="nc_success">#2E7D32</color>
+    <color name="nc_success_light">#E8F5E9</color>
+    <color name="nc_error">#C62828</color>
+    <color name="nc_surface">#FFFFFF</color>
+    <color name="nc_surface_variant">#F5F7FF</color>
+    <color name="nc_divider">#E0E0E0</color>
+    <color name="nc_on_primary">#FFFFFF</color>
 
+    <!-- ── App brand orange (login button, CTAs) ──────────────────────── -->
+    <color name="brand_orange">#FF8000</color>
+    <color name="brand_orange_dark">#E65C00</color>
+    <color name="brand_orange_light">#FFB74D</color>
+
+    <!-- ── E-commerce specific ────────────────────────────────────────── -->
+    <color name="price_color">#1565C0</color>
+    <color name="original_price_color">#9E9E9E</color>
+    <color name="discount_badge_color">#C62828</color>
+    <color name="wishlist_active">#E91E63</color>
+    <color name="star_color">#FFC107</color>
+    <color name="cart_btn_color">#1565C0</color>
+    <color name="chip_selected_text">#1565C0</color>
+    <color name="chip_unselected_text">#CCFFFFFF</color>
+
+    <!-- Inbox colors -->
+    <color name="inbox_accent">#3F51B5</color>
+    <color name="inbox_unread_bg">#F0F2FF</color>
+    <color name="inbox_read_bg">#FFFFFF</color>
+    <color name="inbox_title_unread">#1A237E</color>
+    <color name="inbox_title_read">#212121</color>
+    <color name="inbox_desc">#666666</color>
+    <color name="inbox_time">#9E9E9E</color>
+    <color name="inbox_surface">#F4F6FF</color>
+    <color name="inbox_swipe_delete">#E53935</color>
 
 </resources>

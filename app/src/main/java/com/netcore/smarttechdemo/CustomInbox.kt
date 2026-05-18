@@ -1,322 +1,252 @@
 package com.netcore.smarttechdemo
 
-import android.content.Context
+import android.graphics.Canvas
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.widget.Button
+import android.widget.LinearLayout
 import android.widget.ProgressBar
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import com.google.android.material.appbar.MaterialToolbar
 import com.netcore.android.smartechappinbox.SmartechAppInbox
 import com.netcore.android.smartechappinbox.network.listeners.SMTInboxCallback
 import com.netcore.android.smartechappinbox.network.model.SMTInboxMessageData
+import com.netcore.android.smartechappinbox.utility.SMTAppInboxMessageType
 import com.netcore.android.smartechappinbox.utility.SMTAppInboxRequestBuilder
 import com.netcore.android.smartechappinbox.utility.SMTInboxDataType
 import java.lang.ref.WeakReference
-
+import java.text.SimpleDateFormat
+import java.util.Locale
+import java.util.TimeZone
 
 class CustomInbox : AppCompatActivity() {
 
-    // Declare UI components and context
-    private lateinit var btnAppInbox: Button
-    private lateinit var progressBar: ProgressBar
-    private lateinit var context: Context
+    private lateinit var toolbar       : MaterialToolbar
+    private lateinit var tvBadgeCount  : TextView
+    private lateinit var bellContainer : View
+    private lateinit var progressBar   : ProgressBar
+    private lateinit var swipeRefresh  : SwipeRefreshLayout
+    private lateinit var recyclerView  : RecyclerView
+    private lateinit var tvSwipeHint   : TextView
+    private lateinit var emptyState    : LinearLayout
 
+    private lateinit var inbox : SmartechAppInbox
+    private var adapter        : InboxAdapter? = null
 
-
-    // onCreate method initializes the activity
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.custom_inbox)
 
-        supportActionBar?.hide()
+        inbox = SmartechAppInbox.getInstance(WeakReference(applicationContext))
 
+        initViews()
+        setupToolbar()
+        setupRecyclerView()
+        setupSwipeRefresh()
+        applyWindowInsets()
+        updateBadge()
+        fetchInboxMessages(isRefresh = false)
+    }
 
+    private fun initViews() {
+        toolbar       = findViewById(R.id.toolbar)
+        tvBadgeCount  = findViewById(R.id.tv_badge_count)
+        bellContainer = findViewById(R.id.bell_container)
+        progressBar   = findViewById(R.id.progressBar)
+        swipeRefresh  = findViewById(R.id.swipeRefresh)
+        recyclerView  = findViewById(R.id.recyclerView)
+        tvSwipeHint   = findViewById(R.id.tv_swipe_hint)
+        emptyState    = findViewById(R.id.empty_state)
+    }
 
-        initUI() // Initialize UI components
+    private fun setupToolbar() {
+        setSupportActionBar(toolbar)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.title = "Inbox"
+        toolbar.setNavigationOnClickListener { onBackPressedDispatcher.onBackPressed() }
 
-        // Set click listener for the APPINBOX button
-        btnAppInbox.setOnClickListener {
-            fetchInboxMessages() // Fetch messages on button click
+        bellContainer.setOnClickListener {
+            val count = inbox.getAppInboxMessageCount(SMTAppInboxMessageType.UNREAD_MESSAGE)
+            Toast.makeText(this, "$count unread message${if (count != 1) "s" else ""}", Toast.LENGTH_SHORT).show()
         }
     }
 
-    // Fetch inbox messages from Smartech
-    private fun fetchInboxMessages() {
-        val smartechAppInbox = SmartechAppInbox.getInstance(WeakReference(applicationContext))
-        val categoryList = mutableListOf<String>()
-        for (category in smartechAppInbox.getAppInboxCategoryList()) {
-            categoryList.add(category.name)
+    private fun setupRecyclerView() {
+        recyclerView.layoutManager = LinearLayoutManager(this)
+
+        val swipeCallback = object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
+
+            private val background = ColorDrawable(ContextCompat.getColor(this@CustomInbox, R.color.inbox_swipe_delete))
+            private val icon = ContextCompat.getDrawable(this@CustomInbox, android.R.drawable.ic_menu_delete)
+
+            override fun onMove(rv: RecyclerView, vh: RecyclerView.ViewHolder,
+                                target: RecyclerView.ViewHolder) = false
+
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                adapter?.dismissItem(viewHolder.adapterPosition)
+                updateBadge()
+                showEmptyStateIfNeeded()
+            }
+
+            override fun onChildDraw(
+                c: Canvas, recyclerView: RecyclerView,
+                viewHolder: RecyclerView.ViewHolder, dX: Float, dY: Float,
+                actionState: Int, isCurrentlyActive: Boolean
+            ) {
+                val itemView = viewHolder.itemView
+                background.setBounds(
+                    itemView.right + dX.toInt(), itemView.top,
+                    itemView.right, itemView.bottom
+                )
+                background.draw(c)
+
+                icon?.let {
+                    val iconMargin = (itemView.height - it.intrinsicHeight) / 2
+                    val iconTop    = itemView.top + iconMargin
+                    val iconLeft   = itemView.right - iconMargin - it.intrinsicWidth
+                    it.setBounds(iconLeft, iconTop, iconLeft + it.intrinsicWidth, iconTop + it.intrinsicHeight)
+                    it.setTint(Color.WHITE)
+                    it.draw(c)
+                }
+
+                super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
+            }
         }
 
+        ItemTouchHelper(swipeCallback).attachToRecyclerView(recyclerView)
+    }
 
+    private fun setupSwipeRefresh() {
+        swipeRefresh.setColorSchemeColors(
+            ContextCompat.getColor(this, R.color.inbox_accent)
+        )
+        swipeRefresh.setOnRefreshListener {
+            fetchInboxMessages(isRefresh = true)
+        }
+    }
 
-        //val categoryList = arrayListOf("sidiksha") // Define category filter
-        Toast.makeText(applicationContext, "Fetching inbox messages...", Toast.LENGTH_SHORT).show()
+    private fun applyWindowInsets() {
+        val basePx = (16 * resources.displayMetrics.density).toInt()
+        ViewCompat.setOnApplyWindowInsetsListener(recyclerView) { view, windowInsets ->
+            val bars = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars())
+            view.setPadding(view.paddingLeft, view.paddingTop, view.paddingRight, bars.bottom + basePx)
+            windowInsets
+        }
+    }
 
+    private fun updateBadge() {
+        val count = inbox.getAppInboxMessageCount(SMTAppInboxMessageType.UNREAD_MESSAGE)
+        if (count > 0) {
+            tvBadgeCount.text       = if (count > 99) "99+" else count.toString()
+            tvBadgeCount.visibility = View.VISIBLE
+        } else {
+            tvBadgeCount.visibility = View.GONE
+        }
+    }
 
+    private fun showEmptyStateIfNeeded() {
+        val isEmpty = adapter == null || adapter!!.itemCount == 0
+        emptyState.visibility   = if (isEmpty) View.VISIBLE else View.GONE
+        swipeRefresh.visibility = if (isEmpty) View.GONE    else View.VISIBLE
+        tvSwipeHint.visibility  = if (isEmpty) View.GONE    else View.VISIBLE
+    }
 
-        /*// Retrieve and log messages of type READ_MESSAGE
-        val readMessages = smartechAppInbox.getAppInboxMessages(SMTAppInboxMessageType.READ_MESSAGE)
-        Log.i("INBOX Read Messages", " ReadMessages fetched: ${readMessages.toString()}")
+    private fun fetchInboxMessages(isRefresh: Boolean) {
+        val categoryList = inbox.getAppInboxCategoryList().map { it.name }.toMutableList()
 
-        val unreadMessages = smartechAppInbox.getAppInboxMessages(SMTAppInboxMessageType.UNREAD_MESSAGE)
-        Log.i("INBOX UnRead Messages", " UnReadMessages fetched: ${unreadMessages.toString()}")
-
-        val messages = smartechAppInbox.getAppInboxMessages(SMTAppInboxMessageType.INBOX_MESSAGE)
-        Log.i("INBOX Messages", "INBOX_MESSAGE: ${messages.toString()}")
-*/
-
-        // Build the inbox request
-        val builder = SMTAppInboxRequestBuilder.Builder(SMTInboxDataType.ALL)
+        val request = SMTAppInboxRequestBuilder.Builder(SMTInboxDataType.ALL)
             .setCallback(object : SMTInboxCallback {
-
-                override fun onInboxFail() {
-                    hideProgressBar() // Hide progress bar on failure
-                    Toast.makeText(applicationContext, "Failed to fetch inbox messages.", Toast.LENGTH_SHORT).show()
-                }
 
                 override fun onInboxProgress() {
                     runOnUiThread {
-                        progressBar.visibility = View.VISIBLE // Show progress bar while loading
+                        if (!isRefresh) progressBar.visibility = View.VISIBLE
                     }
                 }
 
+                override fun onInboxFail() {
+                    runOnUiThread {
+                        progressBar.visibility = View.GONE
+                        swipeRefresh.isRefreshing = false
+                        Toast.makeText(applicationContext, "Failed to load inbox.", Toast.LENGTH_SHORT).show()
+                    }
+                }
 
-override fun onInboxSuccess(messages: MutableList<SMTInboxMessageData>?) {
+                override fun onInboxSuccess(data: MutableList<SMTInboxMessageData>?) {
+                    Log.i("INBOX", "Messages: $data")
+                    runOnUiThread {
+                        progressBar.visibility = View.GONE
+                        swipeRefresh.isRefreshing = false
 
-    Log.i("INBOX Success", "Messages fetched: ${messages.toString()}")
-    runOnUiThread {
-        hideProgressBar() // Hide progress bar after success
+                        if (data.isNullOrEmpty()) {
+                            showEmptyStateIfNeeded()
+                            return@runOnUiThread
+                        }
 
-        if (!messages.isNullOrEmpty()) {
-            // Map SMTInboxMessageData to InboxMessage for RecyclerView
-            val inboxMessages = messages.map { messageData ->
-                InboxMessage(
-                    title = messageData.smtPayload.title ?: "No Title",
-                    body = messageData.smtPayload.body ?: "No Body",
-                    time = messageData.smtPayload.publishedDate ?: "No Date",
-                    mediaUrl = messageData.smtPayload.mediaUrl ?: "",
-                    deeplink = messageData.smtPayload.deeplink
-                )
-            }
+                        val messages = data.map { it.toInboxMessage() }.toMutableList()
 
-            // Update RecyclerView with fetched messages
-            val recyclerView: RecyclerView = findViewById(R.id.recyclerView)
-            recyclerView.layoutManager = LinearLayoutManager(this@CustomInbox)
-            recyclerView.adapter = InboxAdapter(inboxMessages)
-        } else {
-            Toast.makeText(applicationContext, "No messages found.", Toast.LENGTH_SHORT).show()
-        }
-    }
-} })
-            .setCategory(categoryList) // Filter messages by category
-            .setLimit(10)              // Limit the number of messages
+                        adapter = InboxAdapter(
+                            messages           = messages,
+                            inbox              = inbox,
+                            onMessageDismissed = ::updateBadge
+                        )
+                        recyclerView.adapter = adapter
+
+                        swipeRefresh.visibility = View.VISIBLE
+                        tvSwipeHint.visibility  = View.VISIBLE
+                        emptyState.visibility   = View.GONE
+                        updateBadge()
+                    }
+                }
+            })
+            .setCategory(categoryList)
+            .setLimit(50)
             .build()
 
-        // Execute the inbox request
-        smartechAppInbox.getAppInboxMessages(builder)
+        inbox.getAppInboxMessages(request)
     }
 
-    // Hide the progress bar
-    private fun hideProgressBar() {
-        runOnUiThread {
-            progressBar.visibility = View.GONE
+    private fun SMTInboxMessageData.toInboxMessage(): InboxMessage {
+        val p = smtPayload
+        val description = when {
+            !p.subTitle.isNullOrBlank() -> p.subTitle
+            !p.body.isNullOrBlank()     -> p.body
+            else                        -> ""
+        }
+        val isRead = p.status?.equals("DELIVERED", ignoreCase = true) == false
+        return InboxMessage(
+            title       = p.title       ?: "",
+            description = description,
+            time        = utcToIst(p.publishedDate),
+            mediaUrl    = p.mediaUrl    ?: "",
+            deeplink    = p.deeplink,
+            isRead      = isRead,
+            rawData     = this
+        )
+    }
+
+    private fun utcToIst(utcString: String?): String {
+        if (utcString.isNullOrBlank()) return ""
+        return try {
+            val utcFmt = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.getDefault())
+            utcFmt.timeZone = TimeZone.getTimeZone("UTC")
+            val date = utcFmt.parse(utcString) ?: return utcString
+
+            val istFmt = SimpleDateFormat("dd MMM yyyy, hh:mm a", Locale.getDefault())
+            istFmt.timeZone = TimeZone.getTimeZone("Asia/Kolkata")
+            istFmt.format(date)
+        } catch (e: Exception) {
+            utcString
         }
     }
-
-    // Initialize UI components
-    private fun initUI() {
-        btnAppInbox = findViewById(R.id.btn_appinbox)      // Button to fetch inbox messages
-        progressBar = findViewById(R.id.progressBar)       // Progress bar for loading indicator
-
-        val recyclerView: RecyclerView = findViewById(R.id.recyclerView)
-        recyclerView.layoutManager = LinearLayoutManager(this) // Set layout manager for RecyclerView
-    }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
