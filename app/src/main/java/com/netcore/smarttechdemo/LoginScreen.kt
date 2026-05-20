@@ -39,8 +39,6 @@ class LoginScreen : AppCompatActivity() {
         val savedEmail = sharedPreferences.getString(KEY_EMAIL, null)
         val autoLogin  = sharedPreferences.getBoolean(KEY_AUTO_LOGIN, false)
         if (autoLogin && !savedEmail.isNullOrBlank()) {
-            Smartech.getInstance(WeakReference(applicationContext)).login(savedEmail)
-            Hansel.getUser().setUserId(savedEmail)
             goToMain(savedEmail)
             return   // don't inflate the layout at all
         }

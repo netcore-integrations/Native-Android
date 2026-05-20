@@ -1,187 +1,836 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:fitsSystemWindows="true"
+    android:background="#F5F5F5">
 
-    <LinearLayout
+    <!-- ═══ TOOLBAR ═══ -->
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/toolbar_ce"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:paddingTop="14dp"
-        android:paddingBottom="36dp">
+        android:layout_height="?attr/actionBarSize"
+        android:background="#FF8000"
+        android:elevation="4dp"
+        app:title="Customer Engagement"
+        app:titleTextColor="@android:color/white"
+        app:subtitleTextColor="#FFE0B2"
+        app:navigationIconTint="@android:color/white" />
 
-        <!-- FCM Token -->
-        <TextView
-            style="@style/SectionHeaderStyle"
-            android:text="@string/fcm_token" />
-
-        <TextView
-            android:id="@+id/tv_fcm_token"
-            style="@style/SectionItemStyle"
-            android:drawablePadding="12dp"
-            android:ellipsize="end"
-            android:maxLines="2"
-            android:text="@string/not_available"
-            app:drawableEndCompat="@drawable/ic_copy_24"
-            app:drawableStartCompat="@drawable/ic_firebase_24" />
-
-        <!-- Device GUID -->
-        <TextView
-            style="@style/SectionHeaderStyle"
-            android:layout_marginTop="1dp"
-            android:text="@string/device_unique_id" />
-
-        <TextView
-            android:id="@+id/tv_guid"
-            style="@style/SectionItemStyle"
-            android:drawablePadding="12dp"
-            android:text="@string/not_available"
-            app:drawableEndCompat="@drawable/ic_copy_24"
-            app:drawableStartCompat="@drawable/ic_verified_user_24" />
-
-        <!-- Tracking Events -->
-        <TextView
-            style="@style/SectionHeaderStyle"
-            android:layout_marginTop="10dp"
-            android:text="@string/tracking_events" />
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="none"
+        android:clipToPadding="false">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/colorLightGrey"
-            android:orientation="horizontal"
-            android:padding="1dp">
+            android:orientation="vertical"
+            android:padding="16dp"
+            android:paddingBottom="36dp">
 
+            <!-- ══════════════════════════════════
+                 SECTION: DEVICE INFO
+                 ══════════════════════════════════ -->
             <TextView
-                android:id="@+id/tv_add_to_wish_list"
-                style="@style/SectionItemStyle"
-                android:layout_width="0dp"
-                android:layout_margin="1dp"
-                android:layout_weight="1"
-                android:background="@android:color/white"
-                android:drawablePadding="8dp"
-                android:paddingStart="12dp"
-                android:paddingEnd="12dp"
-                android:text="@string/add_to_wish_list"
-                android:textSize="12sp"
-                app:drawableStartCompat="@drawable/ic_heart_24" />
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="DEVICE INFO"
+                android:textSize="11sp"
+                android:textColor="#FF8000"
+                android:textStyle="bold"
+                android:letterSpacing="0.08"
+                android:layout_marginBottom="8dp"
+                android:layout_marginStart="2dp" />
 
-            <TextView
-                android:id="@+id/tv_add_to_cart"
-                style="@style/SectionItemStyle"
-                android:layout_width="0dp"
-                android:layout_margin="1dp"
-                android:layout_weight="1"
-                android:background="@android:color/white"
-                android:drawablePadding="8dp"
-                android:paddingStart="12dp"
-                android:paddingEnd="12dp"
-                android:text="@string/add_to_cart"
-                android:textSize="12sp"
-                app:drawableStartCompat="@drawable/ic_add_shopping_cart_24" />
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="14dp"
+                app:cardElevation="2dp"
+                app:strokeWidth="0dp"
+                app:cardBackgroundColor="@android:color/white">
 
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <!-- FCM Token Row -->
+                    <LinearLayout
+                        android:id="@+id/row_fcm"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:padding="16dp"
+                        android:background="?attr/selectableItemBackground">
+
+                        <com.google.android.material.card.MaterialCardView
+                            android:layout_width="44dp"
+                            android:layout_height="44dp"
+                            app:cardCornerRadius="22dp"
+                            app:cardElevation="0dp"
+                            app:strokeWidth="0dp"
+                            app:cardBackgroundColor="#FFF3E0">
+                            <ImageView
+                                android:layout_width="22dp"
+                                android:layout_height="22dp"
+                                android:layout_gravity="center"
+                                android:src="@drawable/ic_firebase_24"
+                                android:contentDescription="FCM"
+                                app:tint="#FF8000" />
+                        </com.google.android.material.card.MaterialCardView>
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical"
+                            android:layout_marginStart="14dp">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Device Push Token"
+                                android:textSize="11sp"
+                                android:textColor="#9E9E9E" />
+
+                            <TextView
+                                android:id="@+id/tv_fcm_token"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="—"
+                                android:textSize="12sp"
+                                android:textColor="#212121"
+                                android:fontFamily="monospace"
+                                android:maxLines="2"
+                                android:ellipsize="end"
+                                android:layout_marginTop="2dp" />
+                        </LinearLayout>
+
+                        <ImageView
+                            android:id="@+id/iv_copy_fcm"
+                            android:layout_width="36dp"
+                            android:layout_height="36dp"
+                            android:src="@drawable/ic_copy_24"
+                            android:contentDescription="Copy Token"
+                            android:background="?attr/selectableItemBackgroundBorderless"
+                            android:padding="6dp"
+                            app:tint="#BDBDBD" />
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="#F0F0F0"
+                        android:layout_marginStart="74dp" />
+
+                    <!-- GUID Row -->
+                    <LinearLayout
+                        android:id="@+id/row_guid"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:padding="16dp"
+                        android:background="?attr/selectableItemBackground">
+
+                        <com.google.android.material.card.MaterialCardView
+                            android:layout_width="44dp"
+                            android:layout_height="44dp"
+                            app:cardCornerRadius="22dp"
+                            app:cardElevation="0dp"
+                            app:strokeWidth="0dp"
+                            app:cardBackgroundColor="#E3F2FD">
+                            <ImageView
+                                android:layout_width="22dp"
+                                android:layout_height="22dp"
+                                android:layout_gravity="center"
+                                android:src="@drawable/ic_verified_user_24"
+                                android:contentDescription="GUID"
+                                app:tint="#1565C0" />
+                        </com.google.android.material.card.MaterialCardView>
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical"
+                            android:layout_marginStart="14dp">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Device Unique ID"
+                                android:textSize="11sp"
+                                android:textColor="#9E9E9E" />
+
+                            <TextView
+                                android:id="@+id/tv_guid"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="—"
+                                android:textSize="12sp"
+                                android:textColor="#212121"
+                                android:fontFamily="monospace"
+                                android:maxLines="1"
+                                android:ellipsize="end"
+                                android:layout_marginTop="2dp" />
+                        </LinearLayout>
+
+                        <ImageView
+                            android:id="@+id/iv_copy_guid"
+                            android:layout_width="36dp"
+                            android:layout_height="36dp"
+                            android:src="@drawable/ic_copy_24"
+                            android:contentDescription="Copy GUID"
+                            android:background="?attr/selectableItemBackgroundBorderless"
+                            android:padding="6dp"
+                            app:tint="#BDBDBD" />
+                    </LinearLayout>
+
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- ══════════════════════════════════
+                 SECTION: TRACKING EVENTS
+                 ══════════════════════════════════ -->
             <TextView
-                android:id="@+id/tv_checkout"
-                style="@style/SectionItemStyle"
-                android:layout_width="0dp"
-                android:layout_margin="1dp"
-                android:layout_weight="1"
-                android:background="@android:color/white"
-                android:drawablePadding="8dp"
-                android:paddingStart="12dp"
-                android:paddingEnd="12dp"
-                android:text="@string/checkout"
-                android:textSize="12sp"
-                app:drawableStartCompat="@drawable/ic_check_24" />
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="TRACKING EVENTS"
+                android:textSize="11sp"
+                android:textColor="#FF8000"
+                android:textStyle="bold"
+                android:letterSpacing="0.08"
+                android:layout_marginTop="22dp"
+                android:layout_marginBottom="8dp"
+                android:layout_marginStart="2dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <!-- Wishlist Card -->
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/tv_add_to_wish_list"
+                    android:layout_width="0dp"
+                    android:layout_height="96dp"
+                    android:layout_weight="1"
+                    android:layout_marginEnd="6dp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    app:cardCornerRadius="14dp"
+                    app:cardElevation="2dp"
+                    app:strokeWidth="0dp"
+                    app:cardBackgroundColor="#FCE4EC"
+                    app:rippleColor="#F48FB1">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical"
+                        android:gravity="center"
+                        android:padding="12dp">
+
+                        <ImageView
+                            android:layout_width="28dp"
+                            android:layout_height="28dp"
+                            android:src="@drawable/ic_heart_24"
+                            android:contentDescription="Wishlist"
+                            app:tint="#C2185B" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Wishlist"
+                            android:textSize="12sp"
+                            android:textColor="#C2185B"
+                            android:textStyle="bold"
+                            android:layout_marginTop="8dp"
+                            android:gravity="center" />
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+                <!-- Add to Cart Card -->
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/tv_add_to_cart"
+                    android:layout_width="0dp"
+                    android:layout_height="96dp"
+                    android:layout_weight="1"
+                    android:layout_marginStart="6dp"
+                    android:layout_marginEnd="6dp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    app:cardCornerRadius="14dp"
+                    app:cardElevation="2dp"
+                    app:strokeWidth="0dp"
+                    app:cardBackgroundColor="#E3F2FD"
+                    app:rippleColor="#90CAF9">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical"
+                        android:gravity="center"
+                        android:padding="12dp">
+
+                        <ImageView
+                            android:layout_width="28dp"
+                            android:layout_height="28dp"
+                            android:src="@drawable/ic_add_shopping_cart_24"
+                            android:contentDescription="Add to Cart"
+                            app:tint="#1565C0" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Add to Cart"
+                            android:textSize="12sp"
+                            android:textColor="#1565C0"
+                            android:textStyle="bold"
+                            android:layout_marginTop="8dp"
+                            android:gravity="center" />
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+                <!-- Checkout Card -->
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/tv_checkout"
+                    android:layout_width="0dp"
+                    android:layout_height="96dp"
+                    android:layout_weight="1"
+                    android:layout_marginStart="6dp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    app:cardCornerRadius="14dp"
+                    app:cardElevation="2dp"
+                    app:strokeWidth="0dp"
+                    app:cardBackgroundColor="#E8F5E9"
+                    app:rippleColor="#A5D6A7">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical"
+                        android:gravity="center"
+                        android:padding="12dp">
+
+                        <ImageView
+                            android:layout_width="28dp"
+                            android:layout_height="28dp"
+                            android:src="@drawable/ic_check_24"
+                            android:contentDescription="Checkout"
+                            app:tint="#2E7D32" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Checkout"
+                            android:textSize="12sp"
+                            android:textColor="#2E7D32"
+                            android:textStyle="bold"
+                            android:layout_marginTop="8dp"
+                            android:gravity="center" />
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+            </LinearLayout>
+
+            <!-- ══════════════════════════════════
+                 SECTION: TRACKING USERS
+                 ══════════════════════════════════ -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="TRACKING USERS"
+                android:textSize="11sp"
+                android:textColor="#FF8000"
+                android:textStyle="bold"
+                android:letterSpacing="0.08"
+                android:layout_marginTop="22dp"
+                android:layout_marginBottom="8dp"
+                android:layout_marginStart="2dp" />
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="14dp"
+                app:cardElevation="2dp"
+                app:strokeWidth="0dp"
+                app:cardBackgroundColor="@android:color/white">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <!-- Update Profile -->
+                    <LinearLayout
+                        android:id="@+id/tv_update_profile"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:padding="16dp"
+                        android:background="?attr/selectableItemBackground">
+
+                        <com.google.android.material.card.MaterialCardView
+                            android:layout_width="44dp"
+                            android:layout_height="44dp"
+                            app:cardCornerRadius="22dp"
+                            app:cardElevation="0dp"
+                            app:strokeWidth="0dp"
+                            app:cardBackgroundColor="#E0F2F1">
+                            <ImageView
+                                android:layout_width="22dp"
+                                android:layout_height="22dp"
+                                android:layout_gravity="center"
+                                android:src="@drawable/ic_account_circle_24"
+                                android:contentDescription="Update Profile"
+                                app:tint="#00897B" />
+                        </com.google.android.material.card.MaterialCardView>
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="@string/update_profile"
+                            android:textSize="14sp"
+                            android:textColor="#212121"
+                            android:layout_marginStart="14dp" />
+
+                        <ImageView
+                            android:layout_width="18dp"
+                            android:layout_height="18dp"
+                            android:src="@drawable/ic_arrow_forward_24"
+                            android:contentDescription="Go"
+                            app:tint="#BDBDBD" />
+                    </LinearLayout>
+
+                    <View android:layout_width="match_parent" android:layout_height="1dp"
+                        android:background="#F0F0F0" android:layout_marginStart="74dp" />
+
+                    <!-- Clear Identity -->
+                    <LinearLayout
+                        android:id="@+id/tv_clear_identity"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:padding="16dp"
+                        android:background="?attr/selectableItemBackground">
+
+                        <com.google.android.material.card.MaterialCardView
+                            android:layout_width="44dp"
+                            android:layout_height="44dp"
+                            app:cardCornerRadius="22dp"
+                            app:cardElevation="0dp"
+                            app:strokeWidth="0dp"
+                            app:cardBackgroundColor="#FFEBEE">
+                            <ImageView
+                                android:layout_width="22dp"
+                                android:layout_height="22dp"
+                                android:layout_gravity="center"
+                                android:src="@drawable/ic_person_add_disabled_24"
+                                android:contentDescription="Clear Identity"
+                                app:tint="#C62828" />
+                        </com.google.android.material.card.MaterialCardView>
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="@string/clear_user_identity"
+                            android:textSize="14sp"
+                            android:textColor="#212121"
+                            android:layout_marginStart="14dp" />
+
+                        <ImageView
+                            android:layout_width="18dp"
+                            android:layout_height="18dp"
+                            android:src="@drawable/ic_arrow_forward_24"
+                            android:contentDescription="Go"
+                            app:tint="#BDBDBD" />
+                    </LinearLayout>
+
+                    <View android:layout_width="match_parent" android:layout_height="1dp"
+                        android:background="#F0F0F0" android:layout_marginStart="74dp" />
+
+                    <!-- Logout -->
+                    <LinearLayout
+                        android:id="@+id/tv_logout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:padding="16dp"
+                        android:background="?attr/selectableItemBackground">
+
+                        <com.google.android.material.card.MaterialCardView
+                            android:layout_width="44dp"
+                            android:layout_height="44dp"
+                            app:cardCornerRadius="22dp"
+                            app:cardElevation="0dp"
+                            app:strokeWidth="0dp"
+                            app:cardBackgroundColor="#FFF3E0">
+                            <ImageView
+                                android:layout_width="22dp"
+                                android:layout_height="22dp"
+                                android:layout_gravity="center"
+                                android:src="@drawable/ic_exit_24"
+                                android:contentDescription="Logout"
+                                app:tint="#E65C00" />
+                        </com.google.android.material.card.MaterialCardView>
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="@string/logout"
+                            android:textSize="14sp"
+                            android:textColor="#E53935"
+                            android:textStyle="bold"
+                            android:layout_marginStart="14dp" />
+
+                        <ImageView
+                            android:layout_width="18dp"
+                            android:layout_height="18dp"
+                            android:src="@drawable/ic_arrow_forward_24"
+                            android:contentDescription="Go"
+                            app:tint="#BDBDBD" />
+                    </LinearLayout>
+
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- ══════════════════════════════════
+                 SECTION: ADVANCED
+                 ══════════════════════════════════ -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="ADVANCED"
+                android:textSize="11sp"
+                android:textColor="#FF8000"
+                android:textStyle="bold"
+                android:letterSpacing="0.08"
+                android:layout_marginTop="22dp"
+                android:layout_marginBottom="8dp"
+                android:layout_marginStart="2dp" />
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="14dp"
+                app:cardElevation="2dp"
+                app:strokeWidth="0dp"
+                app:cardBackgroundColor="@android:color/white">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <!-- Default Inbox -->
+                    <LinearLayout
+                        android:id="@+id/tv_appinox"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:padding="16dp"
+                        android:background="?attr/selectableItemBackground">
+
+                        <com.google.android.material.card.MaterialCardView
+                            android:layout_width="44dp"
+                            android:layout_height="44dp"
+                            app:cardCornerRadius="22dp"
+                            app:cardElevation="0dp"
+                            app:strokeWidth="0dp"
+                            app:cardBackgroundColor="#E8EAF6">
+                            <ImageView
+                                android:layout_width="22dp"
+                                android:layout_height="22dp"
+                                android:layout_gravity="center"
+                                android:src="@drawable/ic_notifications_24"
+                                android:contentDescription="Default Inbox"
+                                app:tint="#3949AB" />
+                        </com.google.android.material.card.MaterialCardView>
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="@string/app_inbox"
+                            android:textSize="14sp"
+                            android:textColor="#212121"
+                            android:layout_marginStart="14dp" />
+
+                        <ImageView
+                            android:layout_width="18dp"
+                            android:layout_height="18dp"
+                            android:src="@drawable/ic_arrow_forward_24"
+                            android:contentDescription="Go"
+                            app:tint="#BDBDBD" />
+                    </LinearLayout>
+
+                    <View android:layout_width="match_parent" android:layout_height="1dp"
+                        android:background="#F0F0F0" android:layout_marginStart="74dp" />
+
+                    <!-- Custom Inbox -->
+                    <LinearLayout
+                        android:id="@+id/tv_customappinox"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:padding="16dp"
+                        android:background="?attr/selectableItemBackground">
+
+                        <com.google.android.material.card.MaterialCardView
+                            android:layout_width="44dp"
+                            android:layout_height="44dp"
+                            app:cardCornerRadius="22dp"
+                            app:cardElevation="0dp"
+                            app:strokeWidth="0dp"
+                            app:cardBackgroundColor="#F3E5F5">
+                            <ImageView
+                                android:layout_width="22dp"
+                                android:layout_height="22dp"
+                                android:layout_gravity="center"
+                                android:src="@drawable/ic_notifications_24"
+                                android:contentDescription="Custom Inbox"
+                                app:tint="#7B1FA2" />
+                        </com.google.android.material.card.MaterialCardView>
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="@string/custom_app_inbox"
+                            android:textSize="14sp"
+                            android:textColor="#212121"
+                            android:layout_marginStart="14dp" />
+
+                        <ImageView
+                            android:layout_width="18dp"
+                            android:layout_height="18dp"
+                            android:src="@drawable/ic_arrow_forward_24"
+                            android:contentDescription="Go"
+                            app:tint="#BDBDBD" />
+                    </LinearLayout>
+
+                    <View android:layout_width="match_parent" android:layout_height="1dp"
+                        android:background="#F0F0F0" android:layout_marginStart="74dp" />
+
+                    <!-- Set Location -->
+                    <LinearLayout
+                        android:id="@+id/tv_set_location"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:padding="16dp"
+                        android:background="?attr/selectableItemBackground">
+
+                        <com.google.android.material.card.MaterialCardView
+                            android:layout_width="44dp"
+                            android:layout_height="44dp"
+                            app:cardCornerRadius="22dp"
+                            app:cardElevation="0dp"
+                            app:strokeWidth="0dp"
+                            app:cardBackgroundColor="#E8F5E9">
+                            <ImageView
+                                android:layout_width="22dp"
+                                android:layout_height="22dp"
+                                android:layout_gravity="center"
+                                android:src="@drawable/ic_location_24"
+                                android:contentDescription="Set Location"
+                                app:tint="#388E3C" />
+                        </com.google.android.material.card.MaterialCardView>
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="@string/set_location"
+                            android:textSize="14sp"
+                            android:textColor="#212121"
+                            android:layout_marginStart="14dp" />
+
+                        <ImageView
+                            android:layout_width="18dp"
+                            android:layout_height="18dp"
+                            android:src="@drawable/ic_arrow_forward_24"
+                            android:contentDescription="Go"
+                            app:tint="#BDBDBD" />
+                    </LinearLayout>
+
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- ══════════════════════════════════
+                 SECTION: PREFERENCES
+                 ══════════════════════════════════ -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="PREFERENCES"
+                android:textSize="11sp"
+                android:textColor="#FF8000"
+                android:textStyle="bold"
+                android:letterSpacing="0.08"
+                android:layout_marginTop="22dp"
+                android:layout_marginBottom="8dp"
+                android:layout_marginStart="2dp" />
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="14dp"
+                app:cardElevation="2dp"
+                app:strokeWidth="0dp"
+                app:cardBackgroundColor="@android:color/white">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <!-- Opt Push Notifications -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:padding="16dp">
+
+                        <com.google.android.material.card.MaterialCardView
+                            android:layout_width="44dp"
+                            android:layout_height="44dp"
+                            app:cardCornerRadius="22dp"
+                            app:cardElevation="0dp"
+                            app:strokeWidth="0dp"
+                            app:cardBackgroundColor="#FFF3E0">
+                            <ImageView
+                                android:layout_width="22dp"
+                                android:layout_height="22dp"
+                                android:layout_gravity="center"
+                                android:src="@drawable/ic_notifications_24"
+                                android:contentDescription="Push Notifications"
+                                app:tint="#FF8000" />
+                        </com.google.android.material.card.MaterialCardView>
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="@string/opt_push_notifications"
+                            android:textSize="14sp"
+                            android:textColor="#212121"
+                            android:layout_marginStart="14dp" />
+
+                        <androidx.appcompat.widget.SwitchCompat
+                            android:id="@+id/sw_opt_pn"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+                    </LinearLayout>
+
+                    <View android:layout_width="match_parent" android:layout_height="1dp"
+                        android:background="#F0F0F0" android:layout_marginStart="74dp" />
+
+                    <!-- Opt In-Apps -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:padding="16dp">
+
+                        <com.google.android.material.card.MaterialCardView
+                            android:layout_width="44dp"
+                            android:layout_height="44dp"
+                            app:cardCornerRadius="22dp"
+                            app:cardElevation="0dp"
+                            app:strokeWidth="0dp"
+                            app:cardBackgroundColor="#E3F2FD">
+                            <ImageView
+                                android:layout_width="22dp"
+                                android:layout_height="22dp"
+                                android:layout_gravity="center"
+                                android:src="@drawable/ic_comment_24"
+                                android:contentDescription="In-Apps"
+                                app:tint="#1565C0" />
+                        </com.google.android.material.card.MaterialCardView>
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="@string/opt_in_apps"
+                            android:textSize="14sp"
+                            android:textColor="#212121"
+                            android:layout_marginStart="14dp" />
+
+                        <androidx.appcompat.widget.SwitchCompat
+                            android:id="@+id/sw_opt_in_app"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+                    </LinearLayout>
+
+                    <View android:layout_width="match_parent" android:layout_height="1dp"
+                        android:background="#F0F0F0" android:layout_marginStart="74dp" />
+
+                    <!-- Opt Tracking -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:padding="16dp">
+
+                        <com.google.android.material.card.MaterialCardView
+                            android:layout_width="44dp"
+                            android:layout_height="44dp"
+                            app:cardCornerRadius="22dp"
+                            app:cardElevation="0dp"
+                            app:strokeWidth="0dp"
+                            app:cardBackgroundColor="#E0F2F1">
+                            <ImageView
+                                android:layout_width="22dp"
+                                android:layout_height="22dp"
+                                android:layout_gravity="center"
+                                android:src="@drawable/ic_trending_up_24"
+                                android:contentDescription="Tracking"
+                                app:tint="#00796B" />
+                        </com.google.android.material.card.MaterialCardView>
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="@string/opt_tracking"
+                            android:textSize="14sp"
+                            android:textColor="#212121"
+                            android:layout_marginStart="14dp" />
+
+                        <androidx.appcompat.widget.SwitchCompat
+                            android:id="@+id/sw_opt_tracking"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+                    </LinearLayout>
+
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
 
         </LinearLayout>
+    </ScrollView>
 
-        <!-- User Actions -->
-        <TextView
-            style="@style/SectionHeaderStyle"
-            android:layout_marginTop="1dp"
-            android:text="@string/tracking_users" />
-
-        <TextView
-            android:id="@+id/tv_update_profile"
-            style="@style/SectionItemStyle"
-            android:text="@string/update_profile"
-            app:drawableStartCompat="@drawable/ic_account_circle_24" />
-
-        <TextView
-            android:id="@+id/tv_clear_identity"
-            style="@style/SectionItemStyle"
-            android:text="@string/clear_user_identity"
-            app:drawableStartCompat="@drawable/ic_person_add_disabled_24" />
-
-        <TextView
-            android:id="@+id/tv_logout"
-            style="@style/SectionItemStyle"
-            android:text="@string/logout"
-            app:drawableStartCompat="@drawable/ic_exit_24" />
-
-        <!-- Advanced -->
-        <TextView
-            style="@style/SectionHeaderStyle"
-            android:layout_marginTop="10dp"
-            android:text="@string/advanced" />
-
-        <TextView
-            android:id="@+id/tv_appinox"
-            style="@style/SectionItemStyle"
-            android:drawablePadding="8dp"
-            android:text="@string/app_inbox"
-            app:drawableStartCompat="@drawable/ic_notifications_24" />
-
-        <TextView
-            android:id="@+id/tv_customappinox"
-            style="@style/SectionItemStyle"
-            android:drawablePadding="8dp"
-            android:text="@string/custom_app_inbox"
-            app:drawableStartCompat="@drawable/ic_notifications_24" />
-
-        <TextView
-            android:id="@+id/tv_set_location"
-            style="@style/SectionItemStyle"
-            android:drawablePadding="8dp"
-            android:text="@string/set_location"
-            app:drawableStartCompat="@drawable/ic_location_24" />
-
-        <TextView
-            android:id="@+id/tv_webview"
-            style="@style/SectionItemStyle"
-            android:drawablePadding="8dp"
-            android:text="@string/web_view"
-            app:drawableStartCompat="@drawable/ic_arrow_forward_24" />
-
-        <TextView
-            android:id="@+id/tv_list_in_list"
-            style="@style/SectionItemStyle"
-            android:drawablePadding="8dp"
-            android:text="@string/list_in_list"
-            app:drawableStartCompat="@drawable/ic_arrow_forward_24" />
-
-        <!-- Opt-in switches -->
-        <androidx.appcompat.widget.SwitchCompat
-            android:id="@+id/sw_opt_pn"
-            style="@style/SectionItemStyle"
-            android:drawableStart="@drawable/ic_notifications_24"
-            android:text="@string/opt_push_notifications" />
-
-        <androidx.appcompat.widget.SwitchCompat
-            android:id="@+id/sw_opt_in_app"
-            style="@style/SectionItemStyle"
-            android:drawableStart="@drawable/ic_comment_24"
-            android:text="@string/opt_in_apps" />
-
-        <androidx.appcompat.widget.SwitchCompat
-            android:id="@+id/sw_opt_tracking"
-            style="@style/SectionItemStyle"
-            android:drawableStart="@drawable/ic_trending_up_24"
-            android:text="@string/opt_tracking" />
-
-    </LinearLayout>
-
-</ScrollView>
+</LinearLayout>

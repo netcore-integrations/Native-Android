@@ -12,6 +12,7 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.view.View
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -19,6 +20,7 @@ import androidx.appcompat.widget.SwitchCompat
 import androidx.core.app.ActivityCompat
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
+import com.google.android.material.appbar.MaterialToolbar
 import com.netcore.android.Smartech
 import com.netcore.android.smartechappinbox.SmartechAppInbox
 import com.netcore.android.smartechpush.SmartPush
@@ -33,22 +35,30 @@ import java.util.Locale
 
 class DashBoardScreen : AppCompatActivity() {
 
+    // Device info (text-bearing — must stay TextView)
     private lateinit var tvFcmToken: TextView
     private lateinit var tvGuid: TextView
-    private lateinit var tvAddToWishList: TextView
-    private lateinit var tvAddToCart: TextView
-    private lateinit var tvCheckout: TextView
-    private lateinit var tvUpdateProfile: TextView
-    private lateinit var tvClearIdentity: TextView
-    private lateinit var tvLogout: TextView
-    private lateinit var tvAppInbox: TextView
-    private lateinit var tvCustomAppInbox: TextView
-    private lateinit var tvSetLocation: TextView
-    private lateinit var tvWebView: TextView
-    private lateinit var tvListInList: TextView
+
+    // Action-only views (type is View — IDs now live on LinearLayout rows / MaterialCardViews)
+    private lateinit var vWishlist: View
+    private lateinit var vAddToCart: View
+    private lateinit var vCheckout: View
+    private lateinit var vUpdateProfile: View
+    private lateinit var vClearIdentity: View
+    private lateinit var vLogout: View
+    private lateinit var vAppInbox: View
+    private lateinit var vCustomAppInbox: View
+    private lateinit var vSetLocation: View
+
+    // Copy icons
+    private lateinit var ivCopyFcm: View
+    private lateinit var ivCopyGuid: View
+
+    // Preferences switches
     private lateinit var switchPushNotifications: SwitchCompat
     private lateinit var switchInAppMessages: SwitchCompat
     private lateinit var switchTracking: SwitchCompat
+
     private lateinit var preferences: SharedPreferences
     private lateinit var fusedLocationClient: FusedLocationProviderClient
 
@@ -61,53 +71,59 @@ class DashBoardScreen : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.dashboard_screen)
-        supportActionBar?.hide()
 
+        setupToolbar()
         initializeViews()
         initializeSwitches()
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
         setClickListeners()
     }
 
-    private fun initializeViews() {
-        tvFcmToken = findViewById(R.id.tv_fcm_token)
-        tvGuid = findViewById(R.id.tv_guid)
-        tvAddToWishList = findViewById(R.id.tv_add_to_wish_list)
-        tvAddToCart = findViewById(R.id.tv_add_to_cart)
-        tvCheckout = findViewById(R.id.tv_checkout)
-        tvUpdateProfile = findViewById(R.id.tv_update_profile)
-        tvClearIdentity = findViewById(R.id.tv_clear_identity)
-        tvLogout = findViewById(R.id.tv_logout)
-        tvAppInbox = findViewById(R.id.tv_appinox)
-        tvCustomAppInbox = findViewById(R.id.tv_customappinox)
-        tvSetLocation = findViewById(R.id.tv_set_location)
-        tvWebView = findViewById(R.id.tv_webview)
-        tvListInList = findViewById(R.id.tv_list_in_list)
-        switchPushNotifications = findViewById(R.id.sw_opt_pn)
-        switchInAppMessages = findViewById(R.id.sw_opt_in_app)
-        switchTracking = findViewById(R.id.sw_opt_tracking)
-        preferences = getSharedPreferences("SHARED_PREF", Context.MODE_PRIVATE)
+    private fun setupToolbar() {
+        val toolbar = findViewById<MaterialToolbar>(R.id.toolbar_ce)
+        setSupportActionBar(toolbar)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        toolbar.setNavigationOnClickListener { onBackPressedDispatcher.onBackPressed() }
+    }
 
-        // Show current FCM token and GUID
+    private fun initializeViews() {
+        tvFcmToken            = findViewById(R.id.tv_fcm_token)
+        tvGuid                = findViewById(R.id.tv_guid)
+        ivCopyFcm             = findViewById(R.id.iv_copy_fcm)
+        ivCopyGuid            = findViewById(R.id.iv_copy_guid)
+        vWishlist             = findViewById(R.id.tv_add_to_wish_list)
+        vAddToCart            = findViewById(R.id.tv_add_to_cart)
+        vCheckout             = findViewById(R.id.tv_checkout)
+        vUpdateProfile        = findViewById(R.id.tv_update_profile)
+        vClearIdentity        = findViewById(R.id.tv_clear_identity)
+        vLogout               = findViewById(R.id.tv_logout)
+        vAppInbox             = findViewById(R.id.tv_appinox)
+        vCustomAppInbox       = findViewById(R.id.tv_customappinox)
+        vSetLocation          = findViewById(R.id.tv_set_location)
+        switchPushNotifications = findViewById(R.id.sw_opt_pn)
+        switchInAppMessages   = findViewById(R.id.sw_opt_in_app)
+        switchTracking        = findViewById(R.id.sw_opt_tracking)
+        preferences           = getSharedPreferences(LoginScreen.SHARED_PREF_NAME, Context.MODE_PRIVATE)
+
         tvFcmToken.text = SmartPush.getInstance(WeakReference(applicationContext)).getDevicePushToken()
-        tvGuid.text = Smartech.getInstance(WeakReference(applicationContext)).getDeviceUniqueId()
+        tvGuid.text     = Smartech.getInstance(WeakReference(applicationContext)).getDeviceUniqueId()
     }
 
     private fun setClickListeners() {
-        tvFcmToken.setOnClickListener { copyFcmToken() }
-        tvGuid.setOnClickListener { copyDeviceGuid() }
-        tvAddToWishList.setOnClickListener { trackAddToWishList() }
-        tvAddToCart.setOnClickListener { trackAddToCart() }
-        tvCheckout.setOnClickListener { trackCheckout() }
-        tvUpdateProfile.setOnClickListener { updateProfile() }
-        tvClearIdentity.setOnClickListener { clearIdentity() }
-        tvLogout.setOnClickListener { logoutUser() }
-        tvAppInbox.setOnClickListener { openAppInbox() }
-        tvCustomAppInbox.setOnClickListener { openCustomAppInbox() }
-        tvSetLocation.setOnClickListener { setLocation() }
-        tvWebView.setOnClickListener { startActivity(Intent(this, WebActivity::class.java)) }
-        tvListInList.setOnClickListener { startActivity(Intent(this, ListInListActivity::class.java)) }
+        ivCopyFcm.setOnClickListener       { copyFcmToken() }
+        ivCopyGuid.setOnClickListener      { copyDeviceGuid() }
+        vWishlist.setOnClickListener       { trackAddToWishList() }
+        vAddToCart.setOnClickListener      { trackAddToCart() }
+        vCheckout.setOnClickListener       { trackCheckout() }
+        vUpdateProfile.setOnClickListener  { updateProfile() }
+        vClearIdentity.setOnClickListener  { clearIdentity() }
+        vLogout.setOnClickListener         { logoutUser() }
+        vAppInbox.setOnClickListener       { openAppInbox() }
+        vCustomAppInbox.setOnClickListener { openCustomAppInbox() }
+        vSetLocation.setOnClickListener    { setLocation() }
     }
+
+    // ── Copy helpers ──────────────────────────────────────────────────────────
 
     private fun copyFcmToken() {
         val token = SmartPush.getInstance(WeakReference(applicationContext)).getDevicePushToken()
@@ -121,20 +137,21 @@ class DashBoardScreen : AppCompatActivity() {
         Toast.makeText(this, getString(R.string.copied), Toast.LENGTH_SHORT).show()
     }
 
+    // ── Tracking Events ───────────────────────────────────────────────────────
+
     private fun trackAddToWishList() {
         val payload = hashMapOf<String, Any>(
-            "name" to "Mobile",
-            "prid" to 2,
-            "price" to 15000.00,
-            "color" to "red",
-            "quantity" to "2",
+            "name"      to "Mobile",
+            "prid"      to 2,
+            "price"     to 15000.00,
+            "color"     to "red",
+            "quantity"  to "2",
             "datetest1" to "2023-09-13 18:09:00",
             "datetest2" to SimpleDateFormat(DATE_FORMAT, Locale.getDefault()).format(Date())
         )
         Smartech.getInstance(WeakReference(applicationContext)).trackEvent("Add To Wishlist", payload)
         Toast.makeText(this, getString(R.string.tracking_add_to_wish_list), Toast.LENGTH_SHORT).show()
 
-        // Request notification permission and report result to SDK
         SmartPush.getInstance(WeakReference(this)).requestNotificationPermission(
             object : SMTNotificationPermissionCallback {
                 override fun notificationPermissionStatus(status: Int) {
@@ -150,10 +167,10 @@ class DashBoardScreen : AppCompatActivity() {
 
     private fun trackAddToCart() {
         val payload = hashMapOf<String, Any>(
-            "name" to "T-shirt",
-            "prid" to 2,
+            "name"  to "T-shirt",
+            "prid"  to 2,
             "price" to 15000.00,
-            "size" to "xl",
+            "size"  to "xl",
             "color" to "Red"
         )
         val smartech = Smartech.getInstance(WeakReference(applicationContext))
@@ -164,32 +181,30 @@ class DashBoardScreen : AppCompatActivity() {
 
     private fun trackCheckout() {
         val payload = hashMapOf<String, Any>(
-            "name" to "Mobile",
-            "prid" to 2,
-            "price" to 15000.00,
-            "color" to "red",
+            "name"     to "Mobile",
+            "prid"     to 2,
+            "price"    to 15000.00,
+            "color"    to "red",
             "quantity" to "2"
         )
         Smartech.getInstance(WeakReference(applicationContext)).trackEvent("Checkout", payload)
         Toast.makeText(this, getString(R.string.tracking_checkout), Toast.LENGTH_SHORT).show()
 
-        // Update profile with virtual card flag after checkout
         Handler(Looper.getMainLooper()).postDelayed({
             Smartech.getInstance(WeakReference(applicationContext))
                 .updateUserProfile(hashMapOf("VIRTUAL_CARD_ENABLED" to "yes"))
         }, 1000)
 
-        // Enrich with Hansel A/B experiment data
         val hanselProps = hashMapOf<String, Any>("name" to "test")
-        val hanselData = HanselTracker.logEvent("HanselTracker", "smt", hanselProps)
-        hanselData?.let { hanselProps.putAll(it) }
+        HanselTracker.logEvent("HanselTracker", "smt", hanselProps)?.let { hanselProps.putAll(it) }
 
-        // Post-payment funnel event
         Smartech.getInstance(WeakReference(applicationContext)).trackEvent(
             "post_payment_pop_up",
             hashMapOf("subscription_type" to "STANDARD")
         )
     }
+
+    // ── Tracking Users ────────────────────────────────────────────────────────
 
     private fun updateProfile() {
         val identity = Smartech.getInstance(WeakReference(this)).getUserIdentity()
@@ -225,6 +240,8 @@ class DashBoardScreen : AppCompatActivity() {
         finish()
     }
 
+    // ── Advanced ──────────────────────────────────────────────────────────────
+
     private fun openAppInbox() {
         SmartechAppInbox.getInstance(WeakReference(applicationContext)).displayAppInbox(this)
         SmartPush.getInstance(WeakReference(this)).resetNotificationDoubleOptIn()
@@ -235,11 +252,7 @@ class DashBoardScreen : AppCompatActivity() {
     }
 
     private fun setLocation() {
-        if (checkPermissions()) {
-            getCurrentLocation()
-        } else {
-            requestLocationPermissions()
-        }
+        if (checkPermissions()) getCurrentLocation() else requestLocationPermissions()
     }
 
     private fun getCurrentLocation() {
@@ -260,10 +273,8 @@ class DashBoardScreen : AppCompatActivity() {
             .addOnSuccessListener { location: Location? ->
                 if (location != null) {
                     Smartech.getInstance(WeakReference(applicationContext)).setUserLocation(location)
-                    Toast.makeText(
-                        this, "Location set: ${location.latitude}, ${location.longitude}",
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    Toast.makeText(this, "Location set: ${location.latitude}, ${location.longitude}",
+                        Toast.LENGTH_SHORT).show()
                 } else {
                     Toast.makeText(this, "Location unavailable. Ensure GPS is enabled.", Toast.LENGTH_SHORT).show()
                 }
@@ -276,7 +287,7 @@ class DashBoardScreen : AppCompatActivity() {
     private fun checkPermissions(): Boolean {
         val fineOk = ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) ==
                 PackageManager.PERMISSION_GRANTED
-        val bgOk = Build.VERSION.SDK_INT < Build.VERSION_CODES.Q ||
+        val bgOk   = Build.VERSION.SDK_INT < Build.VERSION_CODES.Q ||
                 ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_BACKGROUND_LOCATION) ==
                 PackageManager.PERMISSION_GRANTED
         return fineOk && bgOk
@@ -300,7 +311,9 @@ class DashBoardScreen : AppCompatActivity() {
         }
     }
 
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+    override fun onRequestPermissionsResult(
+        requestCode: Int, permissions: Array<out String>, grantResults: IntArray
+    ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (requestCode == LOCATION_PERMISSION_REQUEST_CODE) {
             if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
@@ -311,24 +324,22 @@ class DashBoardScreen : AppCompatActivity() {
         }
     }
 
+    // ── Preferences switches ──────────────────────────────────────────────────
+
     private fun initializeSwitches() {
         val smartPush = SmartPush.getInstance(WeakReference(this))
-        val smartech = Smartech.getInstance(WeakReference(this))
+        val smartech  = Smartech.getInstance(WeakReference(this))
 
         switchPushNotifications.isChecked = smartPush.hasOptedPushNotification()
-        switchInAppMessages.isChecked = smartech.hasOptedInAppMessage()
-        switchTracking.isChecked = smartech.hasOptedTracking()
+        switchInAppMessages.isChecked     = smartech.hasOptedInAppMessage()
+        switchTracking.isChecked          = smartech.hasOptedTracking()
 
-        switchPushNotifications.setOnCheckedChangeListener { _, isChecked ->
-            smartPush.optPushNotification(isChecked)
-        }
-        switchInAppMessages.setOnCheckedChangeListener { _, isChecked ->
-            smartech.optInAppMessage(isChecked)
-        }
-        switchTracking.setOnCheckedChangeListener { _, isChecked ->
-            smartech.optTracking(isChecked)
-        }
+        switchPushNotifications.setOnCheckedChangeListener { _, isChecked -> smartPush.optPushNotification(isChecked) }
+        switchInAppMessages.setOnCheckedChangeListener     { _, isChecked -> smartech.optInAppMessage(isChecked) }
+        switchTracking.setOnCheckedChangeListener          { _, isChecked -> smartech.optTracking(isChecked) }
     }
+
+    // ── Utilities ─────────────────────────────────────────────────────────────
 
     private fun copyToClipboard(label: String, text: String?) {
         val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager

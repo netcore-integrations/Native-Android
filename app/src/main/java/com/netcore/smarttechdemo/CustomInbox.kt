@@ -165,7 +165,7 @@ class CustomInbox : AppCompatActivity() {
     private fun fetchInboxMessages(isRefresh: Boolean) {
         val categoryList = inbox.getAppInboxCategoryList().map { it.name }.toMutableList()
 
-        val request = SMTAppInboxRequestBuilder.Builder(SMTInboxDataType.ALL)
+        val builder = SMTAppInboxRequestBuilder.Builder(SMTInboxDataType.ALL)
             .setCallback(object : SMTInboxCallback {
 
                 override fun onInboxProgress() {
@@ -209,11 +209,15 @@ class CustomInbox : AppCompatActivity() {
                     }
                 }
             })
-            .setCategory(categoryList)
             .setLimit(50)
-            .build()
 
-        inbox.getAppInboxMessages(request)
+        // Only filter by category when categories exist — passing an empty list
+        // causes the SDK to return zero results even when messages are present.
+        if (categoryList.isNotEmpty()) {
+            builder.setCategory(categoryList)
+        }
+
+        inbox.getAppInboxMessages(builder.build())
     }
 
     private fun SMTInboxMessageData.toInboxMessage(): InboxMessage {

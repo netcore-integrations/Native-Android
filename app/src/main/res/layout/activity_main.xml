@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:fitsSystemWindows="true"
     android:background="@android:color/white">
 
     <!-- ═══════════ HEADER ═══════════ -->
@@ -51,6 +52,17 @@
         </LinearLayout>
 
         <ImageView
+            android:id="@+id/btn_device_info"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:src="@drawable/ic_settings_24"
+            android:contentDescription="Device Info"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:padding="6dp"
+            android:layout_marginEnd="4dp"
+            app:tint="#FF8000" />
+
+        <ImageView
             android:id="@+id/btn_profile_header"
             android:layout_width="36dp"
             android:layout_height="36dp"
@@ -68,7 +80,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fillViewport="false"
-        android:scrollbars="none">
+        android:scrollbars="none"
+        android:clipToPadding="false">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -114,13 +127,13 @@
 
             <!-- ─── FEATURE CARDS ─── -->
             <LinearLayout
+                android:id="@+id/firstRow"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:layout_marginStart="16dp"
                 android:layout_marginEnd="16dp"
-                android:layout_marginTop="16dp"
-                android:id="@+id/firstRow">
+                android:layout_marginTop="16dp">
 
                 <!-- Card 1: Customer Engagement -->
                 <com.google.android.material.card.MaterialCardView
@@ -141,7 +154,6 @@
                         android:gravity="center"
                         android:padding="16dp">
 
-                        <!-- Orange accent bar at top -->
                         <View
                             android:layout_width="32dp"
                             android:layout_height="4dp"
@@ -188,7 +200,6 @@
                         android:gravity="center"
                         android:padding="16dp">
 
-                        <!-- Blue accent bar at top -->
                         <View
                             android:layout_width="32dp"
                             android:layout_height="4dp"
@@ -264,7 +275,7 @@
                 android:paddingEnd="8dp"
                 android:overScrollMode="never" />
 
-            <!-- Dot indicator row -->
+            <!-- Dot indicator -->
             <LinearLayout
                 android:id="@+id/ll_dots"
                 android:layout_width="wrap_content"
@@ -277,108 +288,6 @@
                 android:layout_marginStart="20dp"
                 android:layout_marginEnd="20dp">
                 <!-- dots added programmatically -->
-            </LinearLayout>
-
-            <!-- Margin between dots and bottom nav hint -->
-            <View android:layout_width="match_parent" android:layout_height="8dp" />
-
-            <!-- ─── QUICK LINKS ROW ─── -->
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="10dp"
-                android:text="Quick Links"
-                android:textColor="#212121"
-                android:textSize="16sp"
-                android:textStyle="bold" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:paddingStart="16dp"
-                android:paddingEnd="16dp">
-
-                <!-- Dynamic View quick link -->
-                <com.google.android.material.card.MaterialCardView
-                    android:id="@+id/btn_dynamic_view"
-                    android:layout_width="0dp"
-                    android:layout_height="72dp"
-                    android:layout_weight="1"
-                    android:layout_marginEnd="6dp"
-                    app:cardCornerRadius="12dp"
-                    app:cardElevation="2dp"
-                    app:strokeColor="#FF8000"
-                    app:strokeWidth="1dp"
-                    app:cardBackgroundColor="@android:color/white">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:orientation="horizontal"
-                        android:gravity="center_vertical"
-                        android:padding="12dp">
-
-                        <ImageView
-                            android:layout_width="24dp"
-                            android:layout_height="24dp"
-                            android:src="@drawable/dynamic_view"
-                            android:scaleType="centerInside"
-                            android:contentDescription="Dynamic View" />
-
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:layout_marginStart="10dp"
-                            android:text="Dynamic View"
-                            android:textColor="#212121"
-                            android:textSize="13sp"
-                            android:textStyle="bold" />
-                    </LinearLayout>
-                </com.google.android.material.card.MaterialCardView>
-
-                <!-- App Inbox quick link -->
-                <com.google.android.material.card.MaterialCardView
-                    android:id="@+id/btn_quick_inbox"
-                    android:layout_width="0dp"
-                    android:layout_height="72dp"
-                    android:layout_weight="1"
-                    android:layout_marginStart="6dp"
-                    app:cardCornerRadius="12dp"
-                    app:cardElevation="2dp"
-                    app:strokeColor="#1565C0"
-                    app:strokeWidth="1dp"
-                    app:cardBackgroundColor="@android:color/white">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:orientation="horizontal"
-                        android:gravity="center_vertical"
-                        android:padding="12dp">
-
-                        <ImageView
-                            android:layout_width="24dp"
-                            android:layout_height="24dp"
-                            android:src="@drawable/ic_notifications_24"
-                            android:scaleType="centerInside"
-                            android:contentDescription="App Inbox"
-                            app:tint="#1565C0" />
-
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:layout_marginStart="10dp"
-                            android:text="App Inbox"
-                            android:textColor="#212121"
-                            android:textSize="13sp"
-                            android:textStyle="bold" />
-                    </LinearLayout>
-                </com.google.android.material.card.MaterialCardView>
             </LinearLayout>
 
         </LinearLayout>

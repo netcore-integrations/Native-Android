@@ -4,59 +4,72 @@ import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.LinearLayout
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.card.MaterialCardView
+import com.netcore.android.Smartech
+import com.netcore.android.contentpz.SMTWidgetListener
+import com.netcore.android.contentpz.model.SMTWidget
 import com.netcore.android.smartechpush.SmartPush
 import com.netcore.android.smartechpush.pnpermission.SMTNotificationPermissionCallback
-import com.netcore.android.smartechpush.pnpermission.SMTPNPermissionConstants
 import java.lang.ref.WeakReference
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), SMTWidgetListener {
 
-    private lateinit var btnCe: MaterialCardView
-    private lateinit var btnPx: MaterialCardView
-    private lateinit var vpBanners: ViewPager2
-    private lateinit var llDots: LinearLayout
+    companion object {
+        private const val TAG          = "MainActivity"
+        private const val SCROLL_DELAY = 3500L
 
-    // Auto-scroll banner
+        const val WIDGET_HOMEPAGE  = "homepage_carousel"
+        const val WIDGET_COMMUNITY = "community_carousel"
+        const val WIDGET_BRAND     = "brand_carousel"
+        val ALL_WIDGETS = arrayOf(WIDGET_HOMEPAGE, WIDGET_COMMUNITY, WIDGET_BRAND)
+    }
+
+    private lateinit var btnCe          : MaterialCardView
+    private lateinit var btnPx          : MaterialCardView
+    private lateinit var vpBanners      : ViewPager2
+    private lateinit var llDots         : LinearLayout
+    private lateinit var carouselAdapter: CarouselPagerAdapter
+
     private val bannerHandler = Handler(Looper.getMainLooper())
-    private var currentBannerPage = 0
+    private var currentPage   = 0
+    private val loadedWidgets = HashMap<String, SMTWidget?>()
 
-    private val banners = listOf(
-        BannerItem(
-            tag = "BIRTHDAY SPECIAL",
-            title = "Happy Birthday\nfrom Boost!",
-            subtitle = "Here is our special gift just for you",
-            ctaText = "CLAIM GIFT",
-            bgDrawable = R.drawable.bg_banner_slide_1
+    private val staticBanners: List<CarouselBannerItem> = listOf(
+        CarouselBannerItem(
+            title            = "Welcome to Smartech Demo",
+            message          = "Explore personalised campaigns, push, and in-app features.",
+            mediaUrl         = "",
+            deeplinkUrl      = "",
+            backgroundColor  = "#CC0000",
+            actionButtons    = listOf(CarouselActionButton("Explore", "", "#FFFFFF", "#CC0000")),
+            localDrawableRes = R.drawable.bg_banner_slide_1
         ),
-        BannerItem(
-            tag = "NEW FEATURE",
-            title = "Dynamic Indexing\nNow Live!",
-            subtitle = "Personalize every screen with Hansel nudges",
-            ctaText = "EXPLORE NOW",
-            bgDrawable = R.drawable.bg_banner_slide_2
+        CarouselBannerItem(
+            title            = "Dynamic Indexing Now Live!",
+            message          = "Personalise every screen with Hansel nudges.",
+            mediaUrl         = "",
+            deeplinkUrl      = "sampleapp://dashboard",
+            backgroundColor  = "#1565C0",
+            actionButtons    = listOf(CarouselActionButton("Explore Now", "sampleapp://dashboard", "#FFFFFF", "#1565C0")),
+            localDrawableRes = R.drawable.bg_banner_slide_2
         ),
-        BannerItem(
-            tag = "PROMO",
-            title = "Push Notifications\nDone Right",
-            subtitle = "Double opt-in, channels and geofence ready",
-            ctaText = "LEARN MORE",
-            bgDrawable = R.drawable.bg_banner_slide_3
+        CarouselBannerItem(
+            title            = "Push Notifications Done Right",
+            message          = "Double opt-in, channels and geofence ready.",
+            mediaUrl         = "",
+            deeplinkUrl      = "",
+            backgroundColor  = "#2E7D32",
+            actionButtons    = listOf(CarouselActionButton("Learn More", "", "#FFFFFF", "#2E7D32")),
+            localDrawableRes = R.drawable.bg_banner_slide_3
         )
     )
-
-    private val notificationPermissionCallback = object : SMTNotificationPermissionCallback {
-        override fun notificationPermissionStatus(status: Int) {
-            // Status handled by SDK internally
-        }
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -64,18 +77,25 @@ class MainActivity : AppCompatActivity() {
         supportActionBar?.hide()
 
         SmartPush.getInstance(WeakReference(applicationContext))
-            .requestNotificationPermission(notificationPermissionCallback)
-        SmartPush.getInstance(WeakReference(applicationContext))
-            .updateNotificationPermission()
+            .requestNotificationPermission(object : SMTNotificationPermissionCallback {
+                override fun notificationPermissionStatus(status: Int) {}
+            })
+        SmartPush.getInstance(WeakReference(applicationContext)).updateNotificationPermission()
 
         initUI()
-        setupBannerCarousel()
         setupNavigation()
+        setupBannerCarousel(staticBanners)
+
+        val sdk = Smartech.getInstance(WeakReference(this))
+        Log.i(TAG, "onCreate: identity=${sdk.getUserIdentity()}, widgetNames=${sdk.getAllWidgetNames()}")
+        sdk.setWidgetListener(this, this)
+        sdk.getAllWidgets()
     }
 
     override fun onResume() {
         super.onResume()
-        startBannerAutoScroll()
+        bannerHandler.removeCallbacksAndMessages(null)
+        startAutoScroll()
     }
 
     override fun onPause() {
@@ -83,93 +103,134 @@ class MainActivity : AppCompatActivity() {
         bannerHandler.removeCallbacksAndMessages(null)
     }
 
-    // ── UI init ───────────────────────────────────────────────────────────
-    private fun initUI() {
-        btnCe = findViewById(R.id.btn_ce)
-        btnPx = findViewById(R.id.btn_px)
-        vpBanners = findViewById(R.id.vp_banners)
-        llDots = findViewById(R.id.ll_dots)
+    override fun onDestroy() {
+        super.onDestroy()
+        Smartech.getInstance(WeakReference(this)).removeWidgetListener(this)
+    }
 
-        // Quick links
-        findViewById<MaterialCardView>(R.id.btn_dynamic_view)?.setOnClickListener {
-            startActivity(Intent(this, Dynamicview::class.java))
+    override fun onWidgetsLoaded(data: HashMap<String, SMTWidget?>) {
+        Log.i(TAG, "onWidgetsLoaded: size=${data.size}, keys=${data.keys}")
+
+        if (data.isEmpty()) {
+            Log.w(TAG, "onWidgetsLoaded: empty — no active campaign targeting this device/identity.")
+            return
         }
-        findViewById<MaterialCardView>(R.id.btn_quick_inbox)?.setOnClickListener {
-            startActivity(Intent(this, DashBoardScreen::class.java))
+
+        val allBanners = mutableListOf<CarouselBannerItem>()
+
+        for ((widgetName, widget) in data) {
+            if (widget == null) {
+                Log.w(TAG, "  '$widgetName' → null, skipping.")
+                continue
+            }
+            Log.i(TAG, "  '$widgetName': layoutType='${widget.layoutType}', " +
+                    "hasContent=${widget.content != null}, " +
+                    "title='${widget.content?.title}', " +
+                    "mediaUrl='${widget.content?.mediaUrl}', " +
+                    "json=${widget.content?.json}")
+
+            val banners = CpzBannerParser.parseFromWidget(widget, widgetName)
+            Log.i(TAG, "  '$widgetName' → ${banners.size} banner(s) parsed.")
+            if (banners.isEmpty()) continue
+
+            allBanners.addAll(banners)
+            loadedWidgets[widgetName] = widget
+            Smartech.getInstance(WeakReference(this)).trackWidgetAsViewed(widget)
+        }
+
+        if (allBanners.isNotEmpty()) {
+            Log.i(TAG, "Swapping carousel with ${allBanners.size} dynamic banner(s).")
+            runOnUiThread { swapToDynamicBanners(allBanners) }
+        } else {
+            Log.w(TAG, "All widgets produced 0 banners — static banners kept.")
+        }
+    }private fun initUI() {
+        btnCe     = findViewById(R.id.btn_ce)
+        btnPx     = findViewById(R.id.btn_px)
+        vpBanners = findViewById(R.id.vp_banners)
+        llDots    = findViewById(R.id.ll_dots)
+        findViewById<ImageView>(R.id.btn_device_info)?.setOnClickListener {
+            startActivity(Intent(this, DeviceInfoActivity::class.java))
         }
         findViewById<ImageView>(R.id.btn_profile_header)?.setOnClickListener {
             startActivity(Intent(this, UpdateProfileScreen::class.java))
         }
     }
 
-    // ── Navigation ────────────────────────────────────────────────────────
     private fun setupNavigation() {
-        btnCe.setOnClickListener {
-            startActivity(Intent(this, DashBoardScreen::class.java))
-        }
-        btnPx.setOnClickListener {
-            startActivity(Intent(this, ProductExperienceDashBoard::class.java))
-        }
+        btnCe.setOnClickListener { startActivity(Intent(this, DashBoardScreen::class.java)) }
+        btnPx.setOnClickListener { startActivity(Intent(this, ProductExperienceDashBoard::class.java)) }
     }
 
-    // ── Banner carousel ───────────────────────────────────────────────────
-    private fun setupBannerCarousel() {
-        val adapter = BannerAdapter(banners) { item ->
-            Toast.makeText(this, "${item.ctaText} tapped", Toast.LENGTH_SHORT).show()
-        }
-        vpBanners.adapter = adapter
+    private fun setupBannerCarousel(banners: List<CarouselBannerItem>) {
+        carouselAdapter = CarouselPagerAdapter(banners.toMutableList()) { onBannerClicked(it) }
+        vpBanners.adapter            = carouselAdapter
         vpBanners.offscreenPageLimit = 1
-
-        // Build initial dots
+        currentPage = 0
         buildDots(banners.size, 0)
-
-        // Update dots on page change
         vpBanners.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
-                currentBannerPage = position
-                buildDots(banners.size, position)
-                // Restart auto-scroll after manual swipe
+                currentPage = position
+                buildDots(carouselAdapter.itemCount, position)
                 bannerHandler.removeCallbacksAndMessages(null)
-                startBannerAutoScroll()
+                startAutoScroll()
             }
         })
     }
 
-    // ── Dots: pill shape for active, circle for inactive ─────────────────
+    private fun swapToDynamicBanners(dynamic: List<CarouselBannerItem>) {
+        bannerHandler.removeCallbacksAndMessages(null)
+        currentPage = 0
+        carouselAdapter.updateBanners(dynamic)
+        buildDots(dynamic.size, 0)
+        vpBanners.setCurrentItem(0, false)
+        startAutoScroll()
+        Log.i(TAG, "Carousel updated with ${dynamic.size} dynamic banner(s).")
+    }
+
+    private fun onBannerClicked(banner: CarouselBannerItem) {
+        loadedWidgets[banner.sourceWidgetName]?.let {
+            Smartech.getInstance(WeakReference(this)).trackWidgetAsClicked(it)
+        }
+        Smartech.getInstance(WeakReference(this)).trackEvent(
+            "cpz_banner_click",
+            hashMapOf<String, Any>(
+                "widget"   to banner.sourceWidgetName.ifBlank { "static" },
+                "title"    to banner.title,
+                "deeplink" to banner.deeplinkUrl
+            )
+        )
+    }
+
     private fun buildDots(count: Int, selected: Int) {
         llDots.removeAllViews()
-        val density = resources.displayMetrics.density
-        val dotH = (6 * density).toInt()
-        val activeW = (20 * density).toInt()   // pill
-        val inactiveW = (6 * density).toInt()  // circle
-        val margin = (4 * density).toInt()
-
+        val dp      = resources.displayMetrics.density
+        val dotH    = (6  * dp).toInt()
+        val activeW = (20 * dp).toInt()
+        val inactW  = (6  * dp).toInt()
+        val margin  = (4  * dp).toInt()
         for (i in 0 until count) {
             val dot = View(this)
-            val lp = LinearLayout.LayoutParams(
-                if (i == selected) activeW else inactiveW,
-                dotH
-            )
+            val lp  = LinearLayout.LayoutParams(if (i == selected) activeW else inactW, dotH)
             lp.setMargins(margin, 0, margin, 0)
             dot.layoutParams = lp
             dot.background = ContextCompat.getDrawable(
-                this,
-                if (i == selected) R.drawable.dot_active else R.drawable.dot_inactive
+                this, if (i == selected) R.drawable.dot_active else R.drawable.dot_inactive
             )
             llDots.addView(dot)
         }
     }
 
-    // ── Auto-scroll every 3.5 s ───────────────────────────────────────────
-    private fun startBannerAutoScroll() {
+    private fun startAutoScroll() {
         bannerHandler.postDelayed(object : Runnable {
             override fun run() {
-                if (banners.isNotEmpty()) {
-                    currentBannerPage = (currentBannerPage + 1) % banners.size
-                    vpBanners.setCurrentItem(currentBannerPage, true)
+                val count = carouselAdapter.itemCount
+                if (count > 1) {
+                    currentPage = (currentPage + 1) % count
+                    vpBanners.setCurrentItem(currentPage, true)
                 }
-                bannerHandler.postDelayed(this, 3500L)
+                bannerHandler.postDelayed(this, SCROLL_DELAY)
             }
-        }, 3500L)
+        }, SCROLL_DELAY)
     }
 }
