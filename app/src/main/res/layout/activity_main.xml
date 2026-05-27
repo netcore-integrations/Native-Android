@@ -240,6 +240,7 @@
                 android:layout_marginBottom="10dp">
 
                 <TextView
+                    android:id="@+id/tv_section_label"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -249,6 +250,7 @@
                     android:textStyle="bold" />
 
                 <TextView
+                    android:id="@+id/tv_banner_mode"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="#FFF3E0"

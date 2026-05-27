@@ -254,11 +254,16 @@ class UpdateProfileScreen : AppCompatActivity() {
         }
 
         // ── Track profile update event ─────────────────────────────────
+        val eventPayload = hashMapOf<String, Any>(
+            "first_name" to firstName,
+            "last_name"  to lastName,
+            "has_dob"    to dob.isNotBlank(),
+            "has_gender" to gender.isNotBlank()
+        )
+        if (dob.isNotBlank())    eventPayload["dob"]    = dob
+        if (gender.isNotBlank()) eventPayload["gender"] = gender
         Smartech.getInstance(WeakReference(applicationContext))
-            .trackEvent("profile_updated", hashMapOf<String, Any>(
-                "has_dob"    to dob.isNotBlank(),
-                "has_gender" to gender.isNotBlank()
-            ))
+            .trackEvent("profile_updated", eventPayload)
 
         Snackbar.make(btnSubmit, "✓  Profile saved successfully!", Snackbar.LENGTH_LONG)
             .setBackgroundTint(getColor(R.color.nc_success))

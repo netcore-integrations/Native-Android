@@ -4,6 +4,12 @@ plugins {
     id 'com.google.gms.google-services'
 }
 
+def localProps = new Properties()
+def localPropsFile = rootProject.file('local.properties')
+if (localPropsFile.exists()) {
+    localPropsFile.withInputStream { localProps.load(it) }
+}
+
 configurations.all {
     resolutionStrategy {
         force 'androidx.core:core:1.13.1'
@@ -21,6 +27,12 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        manifestPlaceholders = [
+            HANSEL_APP_ID : localProps.getProperty('HANSEL_APP_ID', ''),
+            HANSEL_APP_KEY: localProps.getProperty('HANSEL_APP_KEY', ''),
+            SMT_APP_ID    : localProps.getProperty('SMT_APP_ID', '')
+        ]
 
         buildConfigField "String", "SMARTECH_SDK_VERSION",   '"3.8.2"'
         buildConfigField "String", "SMARTECH_PUSH_VERSION",  '"3.8.2"'

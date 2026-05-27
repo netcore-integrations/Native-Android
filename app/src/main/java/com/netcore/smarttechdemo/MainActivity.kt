@@ -1,5 +1,6 @@
 package com.netcore.smarttechdemo
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
@@ -8,6 +9,7 @@ import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.LinearLayout
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.viewpager2.widget.ViewPager2
@@ -35,6 +37,8 @@ class MainActivity : AppCompatActivity(), SMTWidgetListener {
     private lateinit var btnPx          : MaterialCardView
     private lateinit var vpBanners      : ViewPager2
     private lateinit var llDots         : LinearLayout
+    private lateinit var tvSectionLabel : TextView
+    private lateinit var tvBannerMode   : TextView
     private lateinit var carouselAdapter: CarouselPagerAdapter
 
     private val bannerHandler = Handler(Looper.getMainLooper())
@@ -95,6 +99,7 @@ class MainActivity : AppCompatActivity(), SMTWidgetListener {
     override fun onResume() {
         super.onResume()
         bannerHandler.removeCallbacksAndMessages(null)
+        updateSectionLabel()
         startAutoScroll()
     }
 
@@ -144,17 +149,30 @@ class MainActivity : AppCompatActivity(), SMTWidgetListener {
         } else {
             Log.w(TAG, "All widgets produced 0 banners — static banners kept.")
         }
-    }private fun initUI() {
-        btnCe     = findViewById(R.id.btn_ce)
-        btnPx     = findViewById(R.id.btn_px)
-        vpBanners = findViewById(R.id.vp_banners)
-        llDots    = findViewById(R.id.ll_dots)
+    }
+
+    private fun initUI() {
+        btnCe          = findViewById(R.id.btn_ce)
+        btnPx          = findViewById(R.id.btn_px)
+        vpBanners      = findViewById(R.id.vp_banners)
+        llDots         = findViewById(R.id.ll_dots)
+        tvSectionLabel = findViewById(R.id.tv_section_label)
+        tvBannerMode   = findViewById(R.id.tv_banner_mode)
+
+        updateSectionLabel()
+
         findViewById<ImageView>(R.id.btn_device_info)?.setOnClickListener {
             startActivity(Intent(this, DeviceInfoActivity::class.java))
         }
         findViewById<ImageView>(R.id.btn_profile_header)?.setOnClickListener {
             startActivity(Intent(this, UpdateProfileScreen::class.java))
         }
+    }
+
+    private fun updateSectionLabel() {
+        val firstName = getSharedPreferences("profile_prefs", Context.MODE_PRIVATE)
+            .getString("first_name", "").orEmpty().trim()
+        tvSectionLabel.text = if (firstName.isNotBlank()) "Featured for $firstName" else "Featured for You"
     }
 
     private fun setupNavigation() {
@@ -185,8 +203,20 @@ class MainActivity : AppCompatActivity(), SMTWidgetListener {
         buildDots(dynamic.size, 0)
         vpBanners.setCurrentItem(0, false)
         startAutoScroll()
-        Log.i(TAG, "Carousel updated with ${dynamic.size} dynamic banner(s).")
+
+        // Show the widget name received from the panel as the section label
+        val rawWidgetName = dynamic.firstOrNull()?.sourceWidgetName.orEmpty()
+        tvSectionLabel.text = if (rawWidgetName.isNotBlank()) formatWidgetName(rawWidgetName) else "Featured for You"
+
+        tvBannerMode.text = "LIVE"
+        tvBannerMode.setBackgroundColor(android.graphics.Color.parseColor("#E8F5E9"))
+        tvBannerMode.setTextColor(android.graphics.Color.parseColor("#2E7D32"))
+        Log.i(TAG, "Carousel updated with ${dynamic.size} banner(s) from widget '$rawWidgetName'.")
     }
+
+    private fun formatWidgetName(name: String): String =
+        name.replace('_', ' ').split(' ')
+            .joinToString(" ") { it.replaceFirstChar { c -> c.uppercaseChar() } }
 
     private fun onBannerClicked(banner: CarouselBannerItem) {
         loadedWidgets[banner.sourceWidgetName]?.let {

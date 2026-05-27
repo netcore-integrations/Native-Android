@@ -32,7 +32,7 @@
             <!-- Bottom gradient scrim for category label legibility -->
             <View
                 android:layout_width="match_parent"
-                android:layout_height="56dp"
+                android:layout_height="36dp"
                 android:layout_gravity="bottom"
                 android:background="@drawable/bg_image_scrim" />
 

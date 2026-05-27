@@ -179,6 +179,17 @@ class DashBoardScreen : AppCompatActivity() {
         Toast.makeText(this, getString(R.string.tracking_add_to_cart), Toast.LENGTH_SHORT).show()
     }
 
+    private fun trackLoyaltyStarsExpiring() {
+        val payload = hashMapOf<String, Any>(
+            "stars_count" to 250,
+            "expiry_date" to "30 Jun 2026",
+            "tier"        to "Gold"
+        )
+        Smartech.getInstance(WeakReference(applicationContext))
+            .trackEvent("loyalty_stars_expiring", payload)
+        Toast.makeText(this, "Loyalty stars expiry tracked", Toast.LENGTH_SHORT).show()
+    }
+
     private fun trackCheckout() {
         val payload = hashMapOf<String, Any>(
             "name"     to "Mobile",

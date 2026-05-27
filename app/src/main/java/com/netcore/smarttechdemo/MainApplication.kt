@@ -96,7 +96,7 @@ class MainApplication : Application() {
         //                    Ubuntu-Bold.ttf, and their *Italic variants.
         // Download from: https://fonts.google.com/specimen/Ubuntu
         try {
-            val customTypeface = Typeface.createFromAsset(assets, "ubuntu/Ubuntu-Regular.ttf")
+            val customTypeface = Typeface.createFromAsset(assets, "roboto/Roboto-Italic.ttf")
             Hansel.setTypeface(customTypeface)
         } catch (e: Exception) {
             Log.e("MainApplication", "Failed to load custom font for Hansel: ${e.message}")
