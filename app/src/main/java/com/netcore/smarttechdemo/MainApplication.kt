@@ -8,7 +8,6 @@ import android.content.pm.PackageManager
 import android.os.Build
 import android.text.TextUtils
 import android.util.Log
-import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.messaging.FirebaseMessaging
@@ -25,7 +24,6 @@ import java.lang.ref.WeakReference
 
 class MainApplication : Application() {
 
-    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate() {
         super.onCreate()
 

@@ -8,7 +8,7 @@ import android.database.sqlite.SQLiteOpenHelper
 class  DbHelper(context: Context) : SQLiteOpenHelper(context, "User.db", null, 1) {
 
     //Create Table
-    private val CREATE_USER_TABLE = ("CREATE TABLE " + TABLE_USER + "(" + COLUMN_USER_ID + " INTEGER_PRIMARY_KEY_AUTOINCREMENT,"
+    private val CREATE_USER_TABLE = ("CREATE TABLE " + TABLE_USER + "(" + COLUMN_USER_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
             + COLUMN_USER_NAME + " TEXT," + COLUMN_USER_PASSWORD + " TEXT" + ")")
 
 

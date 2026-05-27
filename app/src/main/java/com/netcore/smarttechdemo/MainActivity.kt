@@ -95,7 +95,7 @@ class MainActivity : AppCompatActivity() {
             startActivity(Intent(this, Dynamicview::class.java))
         }
         findViewById<MaterialCardView>(R.id.btn_quick_inbox)?.setOnClickListener {
-            startActivity(Intent(this, DashBoardScreen::class.java))
+            startActivity(Intent(this, CustomInbox::class.java))
         }
         findViewById<ImageView>(R.id.btn_profile_header)?.setOnClickListener {
             startActivity(Intent(this, UpdateProfileScreen::class.java))

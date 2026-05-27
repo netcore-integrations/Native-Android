@@ -1,9 +1,7 @@
 package com.netcore.smarttechdemo
 
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
 import com.google.android.material.button.MaterialButton
@@ -33,12 +31,8 @@ class OnboardScreen : AppCompatActivity() {
             navigateToLogin()
         }
 
-        sdkRelases.setOnClickListener(){
-            val url = "https://developer.netcorecloud.com/docs/android-release-notes"
-            val intent = Intent(Intent.ACTION_VIEW).apply {
-                data = Uri.parse(url)
-            }
-            startActivity(intent)
+        sdkRelases.setOnClickListener {
+            startActivity(Intent(this, DeviceInfoActivity::class.java))
         }
     }
 

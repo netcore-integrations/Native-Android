@@ -2,8 +2,6 @@ package com.netcore.smarttechdemo
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
-
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
@@ -12,11 +10,6 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.snackbar.Snackbar
 import com.netcore.android.Smartech
-import com.netcore.android.smartechappinbox.SmartechAppInbox
-import com.netcore.android.smartechappinbox.network.listeners.SMTInboxCallback
-import com.netcore.android.smartechappinbox.network.model.SMTInboxMessageData
-import com.netcore.android.smartechappinbox.utility.SMTAppInboxRequestBuilder
-import com.netcore.android.smartechappinbox.utility.SMTInboxDataType
 import com.netcore.android.smartechpush.SmartPush
 import io.hansel.hanselsdk.Hansel
 import java.lang.ref.WeakReference
@@ -60,14 +53,6 @@ class RegisterScreen : AppCompatActivity(), View.OnClickListener {
         btnLogin = findViewById(R.id.log_button)
         btnRegister = findViewById(R.id.reg_button)
         linearBodyReg = findViewById(R.id.linearBodyReg)
-
-
-        // Check if any of these views are null
-        if (textEditTextUser == null || textEditTextPassword1 == null || textEditTextPassword2 == null ||
-            btnLogin == null || btnRegister == null || linearBodyReg == null
-        ) {
-            throw NullPointerException("One or more views could not be initialized. Check layout IDs.")
-        }
     }
 
     // Initialize listeners

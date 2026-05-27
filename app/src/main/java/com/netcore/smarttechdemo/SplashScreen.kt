@@ -14,7 +14,6 @@ import android.os.Looper
 class SplashScreen : AppCompatActivity() {
 
     private val splashScreenDelay: Long = 2000
-    private var isDeeplinkHandled = false  // Prevent overlapping
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
